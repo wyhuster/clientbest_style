@@ -1,0 +1,119 @@
+body { margin:5px;
+       font-family: Verdana, Arial, Helvetica, sans-serif;
+	scrollbar-face-color:#E5EDF5; SCROLLBAR-HIGHLIGHT-COLOR: #ffffff;
+	scrollbar-shadow-color: #9EBACA; SCROLLBAR-3DLIGHT-COLOR: #9EBACA;
+	scrollbar-arrow-color: #9EBACA; SCROLLBAR-TRACK-COLOR: #ffffff; 
+	SCROLLBAR-DARKSHADOW-COLOR: #E5EDF5
+ 	  }
+td {font-size: 12px; color:5a5a5a }
+
+img { border:0; }
+
+input { border:#aaaaaa 1px solid; font-size: 12px; color:5a5a5a; }
+
+input.btn { background: url(BtnBg.jpg);
+            height:22px; 
+			border:#7789AA 1px solid;
+            font-size:12px; 
+			cursor: pointer; 
+			color: #174b73;
+		}
+
+input.no { border-width:0px }
+
+textarea { border:#aaaaaa 1px solid; font-size: 12px; color:5a5a5a; overflow:auto; }
+
+select { border:#aaaaaa 1px solid; font-size:12px; color:5a5a5a; }
+
+a { color:#6E91A5; text-decoration:underline; }
+a:hover { color:#6E91A5; text-decoration:underline; }
+a:visited { color:#6E91A5; text-decoration:underline; }
+
+
+.hand
+{
+	cursor:pointer;
+}
+
+
+hr.dashed
+{
+	border:#cccccc 1px dashed;
+	width:100%;
+}
+
+
+.tit {
+	color:#A2A2A2;
+	font-weight:bold;
+	font-size:13px;
+}
+.tit1 {
+	color:#5a5a5a;
+	font-weight:thin;
+	font-size:12px;
+	width:100%;
+	background:url("icon_tit1.gif") #f4f4f4 no-repeat;
+	padding-left:20px;
+}
+.tab
+{
+	border-collapse:collapse;
+}
+
+.tab1 {
+border:#dddddd 1px dashed;
+}
+
+.tab2
+{
+	border-left:#9BB8C8 1px solid;border-right:#9BB8C8 1px solid;border-bottom:#9BB8C8 1px solid;border-collapse:collapse;
+}
+
+
+.notice {
+   font-size:12px;
+   font-weight:bold;
+   color:#ff0000;
+   text-decoration:none;
+}
+
+.num
+{
+	color:#cccccc;
+	font-weight:bold;
+}
+
+.atime { font-size:10px;color:#aaaaaa;font-family: Arial, Helvetica, sans-serif; }
+
+.list1 {
+margin-top:10px;
+width:95%;
+line-height:18px;
+
+
+}
+.list1 ul{
+	display: list-item; list-style-position: inside; list-style-image: url("icon_list1.gif");
+}
+.list1 li{
+border-bottom:#dddddd 1px solid;
+height:25px;
+margin-top:10px; 
+}
+
+
+.head {
+background:#f4f4f4;
+height:25px;
+}
+
+p {
+margin:5 5 5;
+}
+
+#pagelist {
+	PADDING-RIGHT: 30px; FONT-SIZE: 12px; MARGIN-BOTTOM: 5px; COLOR: #996600; BACKGROUND-COLOR: #f9f9f9; TEXT-ALIGN: right;
+	margin-top:20px;
+	width:95%
+}
