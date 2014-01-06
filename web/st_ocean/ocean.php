@@ -5,6 +5,7 @@
 <title>Ocean监控</title>
 <meta http-equiv=Content-Type content="text/html; charset=utf-8">
 <link href="./../css/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="./ocean.js"></script>
 </head>
 <body bgcolor="#FAFCFF">
 <div>
@@ -33,7 +34,7 @@
 		$tool_args = $row["tool_args"];
 
 		$json_args = json_decode($tool_args,true);
-		echo "<font size='2'><strong>压力参数</strong></font><br/>";
+		echo "<font size='2'><strong>压力参数 id=".$id."</strong></font><br/>";
 		echo "url: ".$json_args["tool_args"]["url"]."<br/>";
 		echo "press server: ".$press_server."</br>";
 		echo "start time: ".$starttime."<br/>";
@@ -50,7 +51,6 @@
 		$start = implode('',$matches[0]);
 		
 		echo "
-		<font size='2'><strong>资源监控</strong></font><br/>
 		<table>
 		<tr>
 		<td>*主机名host：</td>
@@ -72,11 +72,10 @@
 		<input type='text' id='end_date' placeholder='yyMMddHHmmss' value='".$stop."'>
 		</td>
 		</tr>
-		<tr>";
+		</table>";
 		
 	}else{
 		echo "
-		<font size='2'><strong>资源监控</strong></font><br/>
 		<table>
 		<tr>
 		<td>*主机名host：</td>
@@ -89,18 +88,20 @@
 		<input type='text' id='end_date' placeholder='yyMMddHHmmss'>
 		</td>
 		</tr>
-		<tr>";
+		</table>";
 	}
 ?>
+<hr/>
+<font size='2'><strong>资源监控</strong></font><br/>
+<table>
+<tr>
     <td>*监控项选择：</td>
 </tr>
 <tr>
-	<td><input type="checkbox" checked="checked" id="cpu_idle" value="CPU_IDLE">CPU闲置时间</td>
-	<td><input type="checkbox" id="mem_urate" value="MEM_URATE">物理内存使用率</td>
-</tr>
-<tr>
-    <td><input type="checkbox" id="load_avg1" value="SERVER_LOADAVG1">1分钟平均负载</td>
-    <td><input type="checkbox" id="io_avg_wait" value="IO_AVGWAIT">平均I/O等待时间</td>
+	<td><input type="checkbox" checked="checked" id="cpu_idle" value="CPU_IDLE">CPU闲置时间
+	<input type="checkbox" id="mem_urate" value="MEM_URATE">物理内存使用率
+    <input type="checkbox" id="load_avg1" value="SERVER_LOADAVG1">1分钟平均负载
+    <input type="checkbox" id="io_avg_wait" value="IO_AVGWAIT">平均I/O等待时间</td>
 </tr> 
 <tr>
 <td><br/></td>
@@ -109,74 +110,12 @@
 	<td><button onclick="checkArgs()"><font size="3px">查询并显示监控图像</font></button></td>
 </tr>		 
 </table>
-<br/>
-<div><font size="1px" color="blue">*点击访问<a href='http://ocean.baidu.com/'>Ocean开发测试云</a>查询更多资源监控.</font></div>
+<hr/>
+
+<font size='2'><strong>进程监控</strong></font><br/>
+
+<hr/>
+<div><font size="1px" color="blue">*点击访问<a href='http://ocean.baidu.com/' target='_blank'>Ocean开发测试云</a>查询更多资源监控.</font></div>
 </body>
 </html>
 
-<script type="text/javascript">
-	function getTextboxValue(id){
-		var text = document.getElementById(id).value;
-		var textValue = text.replace(/(^\s*)|(\s*$)/g, "");
-		if(textValue == null || textValue == "") {  
-			return "";  
-		}
-		return textValue;
-	}
-
-	function getCheckedItems(){
-		var array = new	Array();
-		var c1 = document.getElementById("cpu_idle");
-		if(c1.checked){
-			array.push(c1.value);
-		}
-		var c2 = document.getElementById("mem_urate");
-		if(c2.checked){
-			array.push(c2.value);
-		}
-		var c3 = document.getElementById("load_avg1");
-		if(c3.checked){
-			array.push(c3.value);
-		}
-		var c4 = document.getElementById("io_avg_wait");
-		if(c4.checked){
-			array.push(c4.value);
-		}
-		if(array.length == 0){
-			return "";
-		}else{
-			return array.join(",");
-		}
-	}
-	
-	function checkArgs(){
-		var host = getTextboxValue("hostname");
-		var starttime = getTextboxValue("start_date");
-		var endtime = getTextboxValue("end_date");
-		
-		if(host == ""){
-			alert("host不能为空!");
-			return;
-		}
-		if(starttime == ""){
-			alert("开始时间不能为空!");
-			return;
-		}
-		if(endtime == ""){
-			alert("结束时间不能为空!");
-			return;
-		}
-		if((starttime-0)>(endtime-0)){
-			alert("开始时间不能大于结束时间");
-			return;
-		}
-		var items = getCheckedItems();
-		if(items == ""){
-			alert("请选择监控项!");
-			return;
-		}
-		
-		var url = "http://ocean.baidu.com/realtime/graph/?pn=3.1&begin=".concat(starttime).concat("&end=").concat(endtime).concat("&host=").concat(host).concat("&items=").concat(items);
-		window.location.href = url;
-	}
-</script>
