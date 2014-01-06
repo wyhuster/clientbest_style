@@ -50,7 +50,7 @@
             return;
         }
         if((starttime-0)>(endtime-0)){
-            alert("开始时间不能大于结束时间");
+            alert("开始时间不能大于结束时间!");
             return;
         }
         var items = getCheckedItems();
@@ -63,3 +63,20 @@
         //window.location.href = url;
         window.open(url);
     }
+
+function getProOcean(){
+	var frame = document.getElementById("pro_frame");
+	frame.src = "pro_ocean.php";
+	frame.style.display = "block";
+}
+
+function showProOcean(){
+	var host = getTextboxValue("hostname");
+	if(host==null||host==""){
+		alert("请填写host!")
+		return;
+	}
+	document.getElementById("pro_panel").style.display = "inline";
+	document.getElementById("host_label").innerHTML = "host:".concat(host);
+}
+

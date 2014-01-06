@@ -55,6 +55,7 @@
 		<tr>
 		<td>*主机名host：</td>
 		<td><input type='text' id='hostname' placeholder='cp01-testing-bdcm06.cp01.baidu.com' size='50'></td>
+		<td><button onclick='showProOcean()'>进程监控</button></td>
 		</tr>
 		<tr>
 		<td>*查询时间：</td>
@@ -69,7 +70,7 @@
 		preg_match_all('/\d/S',$stoptime, $matches);
 		$stop = implode('',$matches[0]);
 		echo "
-		<input type='text' id='end_date' placeholder='yyMMddHHmmss' value='".$stop."'>
+		<input type='text' id='end_date' placeholder='yyyyMMddHHmmss' value='".$stop."'>
 		</td>
 		</tr>
 		</table>";
@@ -80,12 +81,13 @@
 		<tr>
 		<td>*主机名host：</td>
 		<td><input type='text' id='hostname' placeholder='cp01-testing-bdcm06.cp01.baidu.com' size='50'></td>
+		<td><button onclick='showProOcean()'>进程监控</button></td>
 		</tr>
 		<tr>
 		<td>*查询时间：</td>
 		<td><input type='text' id='start_date' placeholder='yyyyMMddHHmmss'>
 		--
-		<input type='text' id='end_date' placeholder='yyMMddHHmmss'>
+		<input type='text' id='end_date' placeholder='yyyyMMddHHmmss'>
 		</td>
 		</tr>
 		</table>";
@@ -112,9 +114,12 @@
 </table>
 <hr/>
 
-<font size='2'><strong>进程监控</strong></font><br/>
+<!--<iframe id="pro_frame" name="pro_frame" width=100% height=100% frameborder=0 onload="this.height=pro_frame.document.body.scrollHeight" style="display:none;"></iframe>-->
 
-<hr/>
+<div id='pro_panel' style="display:none;">
+<font size='2'><strong>进程监控  <label id='host_label'></label></strong></font><br/>
+</div>
+
 <div><font size="1px" color="blue">*点击访问<a href='http://ocean.baidu.com/' target='_blank'>Ocean开发测试云</a>查询更多资源监控.</font></div>
 </body>
 </html>
