@@ -19,7 +19,8 @@
 	$status = $_GET["status"];
 	
 	echo "<br/><br/>";	
-	echo "<font size='2'><strong>进程监控 ".$host."</strong></font><br/>";
+	echo "<font size='2'><strong>进程监控 ".$host."</strong></font>";
+	echo "<br/>";
 	echo "<table>";
 	echo "<tr><td>*进程: </td>";
 	if(!isset($app)){
@@ -34,7 +35,8 @@
 	echo "<tr><td>*所在帐号: </td><td><input id='input_account' type='text' value='".$account."'></td></tr>";
 	echo "<tr><td>*帐号密码: </td><td><input id='input_password' type='text'></td></tr>";
 	echo "</table>";
-	
+
+	echo "<div id='div_btn'>";
 	echo "<button onclick=\"backToList('".$host."')\">返回</button>&nbsp;&nbsp;&nbsp;";
 	if(!isset($app)){
 		//add
@@ -48,6 +50,11 @@
 		echo "<button onclick=\"update('update','".$host."')\">修改</button>&nbsp;&nbsp;&nbsp;";
 		echo "<button onclick=\"delete_app('".$host."')\">删除</button>";
 	}
+	echo "</div>";
+	
+	echo "<div id='div_loading' style='display:none;'>";
+	echo "<img id='loading' src='./../img/loading.gif'>";
+	echo "</div>";
 ?>
 </body>
 </html>

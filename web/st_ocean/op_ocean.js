@@ -91,12 +91,16 @@ function update(op,host){
                 }else{
                     alert(res[1]);
                 }
-            }
+            }else{
+				alert("network error!");
+			}
+			showLoading(false);
         }
     };
     var url=update_url.concat("?host=").concat(host).concat("&appName=").concat(app).concat("&endTime=").concat(endtime).concat("&account=").concat(account).concat("&password=").concat(passwd);
     request.open("GET", "submit_to_ocean.php?url=" + encodeURIComponent(url), true);
     request.send(null);	
+	showLoading(true);
 }
 
 function delete_app(host){
@@ -133,7 +137,10 @@ function op_app(op,host){
                 }else{
                     alert(res[1]);
                 }
-            }
+            }else{
+				alert("network error!");
+			}
+			showLoading(false);
         }
     };
 
@@ -151,6 +158,17 @@ function op_app(op,host){
 	
 	request.open("GET", "submit_to_ocean.php?url=" + encodeURIComponent(url), true);
     request.send(null);
+	showLoading(true);
+}
+
+function showLoading(show){
+	if(show){
+		document.getElementById("div_btn").style.display = "none";
+		document.getElementById("div_loading").style.display = "block";
+	}else{
+		document.getElementById("div_btn").style.display = "block";
+		document.getElementById("div_loading").style.display = "none";
+	}
 }
 
 function toStringByZero(str,count) 
