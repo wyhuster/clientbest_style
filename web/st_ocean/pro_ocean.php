@@ -5,6 +5,7 @@
 <meta http-equiv=html content=no-cache>
 <link href="./../css/bootstrap.css" rel="stylesheet" type="text/css" />
 <link href="./../css/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="./op_ocean.js"></script>
 </head>
 <body bgcolor="#FAFCFF">
 
@@ -24,6 +25,7 @@
 <th>添加用户</th>
 <th>状态</th>
 <th>操作</th>
+<th>监控图像</th>
 </tr>
 </thead>
 <tbody>
@@ -52,6 +54,7 @@
 			echo ":stop</td>";
 		}
 		echo "<td><a href='op_pro_ocean.php?host=".$host."&app=".$app->appName."&endtime=".$app->endTime."&account=".$app->account."&status=".$app->status."'>操作</a></td>";
+		echo "<td><a href=\"javascript:viewOceanData('".$host."','".$app->appName."')\">查看</a></td>";
 		echo "</tr>";
 	}
 ?>

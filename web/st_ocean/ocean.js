@@ -34,8 +34,8 @@
     
     function checkArgs(){
         var host = getTextboxValue("hostname");
-        var starttime = getTextboxValue("start_date");
-        var endtime = getTextboxValue("end_date");
+        var starttime = getTextboxValue("start_date").replace(/[^0-9]/g,"");
+        var endtime = getTextboxValue("end_date").replace(/[^0-9]/g,"");
         
         if(host == ""){       
 			alert("host不能为空!");
@@ -74,8 +74,5 @@ function showProOcean(){
 	var frame = document.getElementById("pro_frame");
 	frame.src = "pro_ocean.php?host="+host;
 	frame.style.display = "block";
-	
-	//document.getElementById("pro_panel").style.display = "inline";
-	//document.getElementById("host_label").innerHTML = "host:".concat(host);
 }
 

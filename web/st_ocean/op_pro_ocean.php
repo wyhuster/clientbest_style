@@ -11,10 +11,10 @@
 	$host = $_GET["host"];
 	$app = $_GET["app"];
 	$endTime = $_GET["endtime"];
-	if(isset($endTime)){
-		preg_match_all('/\d/S',$endTime, $matches);
-		$endTime = implode('',$matches[0]);
-	}
+	//if(isset($endTime)){
+	//	preg_match_all('/\d/S',$endTime, $matches);
+	//	$endTime = implode('',$matches[0]);
+	//}
 	$account = $_GET["account"];
 	$status = $_GET["status"];
 	

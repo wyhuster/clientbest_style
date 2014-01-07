@@ -6,7 +6,7 @@
 <a><img src="./img/logo.png" style='float:left'></a>
 
 <p align="center" style='font-family:Arial;font-size:25px;padding-top:15px; font-weight:bolder;'>
-  客户端后端稳定性测试  </p>
+  客户端后端  </p>
 <hr>
 </body>
 </html>

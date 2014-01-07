@@ -1,8 +1,37 @@
+//remove the time text begin and end empty
+function getParentTime(id){
+	var text = parent.document.getElementById(id).value;
+	var textValue = text.replace(/(^\s*)|(\s*$)/g, "");
+	if(textValue == null || textValue == "") {  
+		return "";  
+	}
+	return textValue;
+}
 
-var update_url = "http://ocean.baidu.com/realtime/newAppMon/";
-var start_url = "http://ocean.baidu.com/realtime/turnOn/";
-var stop_url = "http://ocean.baidu.com/realtime/turnOff/";
-var delete_url = "http://ocean.baidu.com/realtime/removeApp/";
+
+function viewOceanData(host,app){
+	var starttime = getParentTime("start_date").replace(/[^0-9]/g,"");
+	var endtime = getParentTime("end_date").replace(/[^0-9]/g,"");
+	if(starttime == ""){
+        alert("开始时间不能为空!");
+        return;
+    }
+    if(endtime == ""){
+        alert("结束时间不能为空!");
+        return;
+    }
+    if((starttime-0)>(endtime-0)){
+        alert("开始时间不能大于结束时间!");
+        return;
+    }	
+	
+	var query_url = "http://ocean.baidu.com/realtime/graph/?pn=3.2&begin=".concat(starttime).concat("&end=").concat(endtime).concat("&host=").concat(host).concat("&app=").concat(app); 
+	
+	window.open(query_url);
+}
+
+
+
 
 
 function makeHttpObject() {
@@ -18,14 +47,15 @@ function makeHttpObject() {
 	throw new Error("Could not create HTTP request object.");
 }
 
-var request = makeHttpObject();
 
 function backToList(host){
 	window.location.href = "./pro_ocean.php?host=".concat(host);	
 }
 
 function update(op,host){
+	var update_url = "http://ocean.baidu.com/realtime/newAppMon/";
 	var app;
+	
 	if(op == "add"){
 		app = document.getElementById("input_app").value;
 	}
@@ -33,7 +63,7 @@ function update(op,host){
 		app = document.getElementById("label_app").innerHTML;
 	}
 	
-    var endtime = document.getElementById("input_endtime").value;
+    var endtime = document.getElementById("input_endtime").value.replace(/[^0-9]/g,"");
     var account = document.getElementById("input_account").value;
     var passwd = document.getElementById("input_password").value;
 
@@ -46,6 +76,8 @@ function update(op,host){
         return;
     }
     //alert(url);   
+	
+	var request = makeHttpObject();
     request.onreadystatechange = function() {
         if (request.readyState == 4)
         {
@@ -88,6 +120,7 @@ function op_app(op,host){
         alert("请输入进程名或者进程号!");
         return;
     }
+	var request = makeHttpObject();
     request.onreadystatechange = function() {
         if (request.readyState == 4)
         {
@@ -104,6 +137,9 @@ function op_app(op,host){
         }
     };
 
+	var start_url = "http://ocean.baidu.com/realtime/turnOn/";
+	var stop_url = "http://ocean.baidu.com/realtime/turnOff/";
+	var delete_url = "http://ocean.baidu.com/realtime/removeApp/";
 	var url;
 	if(op=="delete"){
     	url=delete_url.concat("?host=").concat(host).concat("&appName=").concat(app).concat("&account=").concat(account).concat("&password=").concat(passwd);
@@ -115,4 +151,24 @@ function op_app(op,host){
 	
 	request.open("GET", "submit_to_ocean.php?url=" + encodeURIComponent(url), true);
     request.send(null);
+}
+
+function toStringByZero(str,count) 
+{
+   while(str.length<count) 
+      str="0"+str;
+   return str;
+}
+
+function getCurrentdate(){
+   var s = "";           
+   var d = new Date();                       
+   s += toStringByZero((d.getYear()+1900)+"",4);                        
+   s += toStringByZero((d.getMonth() + 1)+"",2);  
+   s += toStringByZero(d.getDate()+"",2);        
+   s += toStringByZero(d.getHours()+"",2);
+   s += toStringByZero(d.getMinutes()+"",2);
+   s += toStringByZero(d.getSeconds()+"",2);   
+
+   return(s);                               
 }

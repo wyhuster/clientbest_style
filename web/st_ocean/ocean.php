@@ -47,19 +47,20 @@
 
 		mysql_free_result($result);
 		
-		preg_match_all('/\d/S',$starttime, $matches);
-		$start = implode('',$matches[0]);
+		//only keep number for time
+		//preg_match_all('/\d/S',$starttime, $matches);
+		//$start = implode('',$matches[0]);
 		
 		echo "
 		<table>
 		<tr>
 		<td>*主机名host：</td>
-		<td><input type='text' id='hostname' placeholder='cp01-testing-bdcm06.cp01.baidu.com' size='50'></td>
+		<td><input type='text' id='hostname' placeholder='cp01-testing-bdcm06.cp01.baidu.com' size='51'></td>
 		<td><button onclick='showProOcean()'>进程监控</button></td>
 		</tr>
 		<tr>
 		<td>*查询时间：</td>
-		<td><input type='text' id='start_date' placeholder='yyyyMMddHHmmss' value='".$start."'>
+		<td><input type='text' id='start_date' placeholder='yyyyMMddHHmmss' value='".$starttime."'>
 		--
 		";
 
@@ -67,10 +68,10 @@
 		if($stoptime == "0000-00-00 00:00:00"){
 			$stoptime = date("Y-m-d H:i:s");
 		}
-		preg_match_all('/\d/S',$stoptime, $matches);
-		$stop = implode('',$matches[0]);
+		//preg_match_all('/\d/S',$stoptime, $matches);
+		//$stop = implode('',$matches[0]);
 		echo "
-		<input type='text' id='end_date' placeholder='yyyyMMddHHmmss' value='".$stop."'>
+		<input type='text' id='end_date' placeholder='yyyyMMddHHmmss' value='".$stoptime."'>
 		</td>
 		</tr>
 		</table>";
@@ -80,7 +81,7 @@
 		<table>
 		<tr>
 		<td>*主机名host：</td>
-		<td><input type='text' id='hostname' placeholder='cp01-testing-bdcm06.cp01.baidu.com' size='50'></td>
+		<td><input type='text' id='hostname' placeholder='cp01-testing-bdcm06.cp01.baidu.com' size='51'></td>
 		<td><button onclick='showProOcean()'>进程监控</button></td>
 		</tr>
 		<tr>
