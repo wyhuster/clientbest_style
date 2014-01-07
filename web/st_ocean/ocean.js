@@ -64,11 +64,6 @@
         window.open(url);
     }
 
-function getProOcean(){
-	var frame = document.getElementById("pro_frame");
-	frame.src = "pro_ocean.php";
-	frame.style.display = "block";
-}
 
 function showProOcean(){
 	var host = getTextboxValue("hostname");
@@ -76,7 +71,11 @@ function showProOcean(){
 		alert("请填写host!")
 		return;
 	}
-	document.getElementById("pro_panel").style.display = "inline";
-	document.getElementById("host_label").innerHTML = "host:".concat(host);
+	var frame = document.getElementById("pro_frame");
+	frame.src = "pro_ocean.php?host="+host;
+	frame.style.display = "block";
+	
+	//document.getElementById("pro_panel").style.display = "inline";
+	//document.getElementById("host_label").innerHTML = "host:".concat(host);
 }
 

@@ -1,20 +1,22 @@
 <html>
 <head>
+<title>Ocean监控</title>
 <meta http-equiv=Content-Type content="text/html; charset=utf-8">
 <meta http-equiv=html content=no-cache>
 <link href="./../css/bootstrap.css" rel="stylesheet" type="text/css" />
+<link href="./../css/style.css" rel="stylesheet" type="text/css" />
 </head>
-<body>
+<body bgcolor="#FAFCFF">
 
-<font size='2'><strong>进程监控</strong></font><br/>
 <?php
-	$host = "cp01-testing-bdcm06.cp01.baidu.com";
-	echo "<a href='op_pro_ocean.php?host=".$host."'>添加</a>";
+	echo "<br/><br/>";
+	$host = $_GET["host"];
+	echo "<font size='2'><strong>进程监控 ".$host."</strong></font><br/>";
 ?>
 <table class="table table-hover">
 <thead>
 <tr>
-<th>appName</th>
+<th>进程</th>
 <th>类型</th>
 <th>所属帐号</th>
 <th>添加时间</th>
@@ -33,19 +35,21 @@
 	foreach($xml->app as $app){
 		echo "<tr>";
 		echo "<td>".$app->appName."</td>";
+		echo "<td>".$app->type;
 		if($app->type==1){
-			echo "<td>进程名</td>";
+			echo ":进程名</td>";
 		}else{
-			echo "<td>进程号</td>";
+			echo ":进程号</td>";
 		}
 		echo "<td>".$app->account."</td>";
 		echo "<td>".$app->startTime."</td>";
 		echo "<td>".$app->endTime."</td>";
 		echo "<td>".$app->userName."</td>";
+		echo "<td>".$app->status;
 		if($app->status==1){
-			echo "<td>running</td>";
+			echo ":running</td>";
 		}else{
-			echo "<td>stop</td>";
+			echo ":stop</td>";
 		}
 		echo "<td><a href='op_pro_ocean.php?host=".$host."&app=".$app->appName."&endtime=".$app->endTime."&account=".$app->account."&status=".$app->status."'>操作</a></td>";
 		echo "</tr>";
@@ -53,5 +57,6 @@
 ?>
 </tbody>
 </table>
+<?php echo "<a href='op_pro_ocean.php?host=".$host."'>添加</a>";?>
 </body>
 </html>

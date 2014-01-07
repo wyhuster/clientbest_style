@@ -43,7 +43,7 @@
 		}else{
 			echo "stop time: ".$stoptime;
 		}
-		echo "<br/><br/><hr/>";
+		echo "<br/><hr/>";
 
 		mysql_free_result($result);
 		
@@ -93,7 +93,7 @@
 		</table>";
 	}
 ?>
-<hr/>
+<br/>
 <font size='2'><strong>资源监控</strong></font><br/>
 <table>
 <tr>
@@ -106,21 +106,17 @@
     <input type="checkbox" id="io_avg_wait" value="IO_AVGWAIT">平均I/O等待时间</td>
 </tr> 
 <tr>
-<td><br/></td>
-</tr>
-<tr>
-	<td><button onclick="checkArgs()"><font size="3px">查询并显示监控图像</font></button></td>
+	<td><button onclick="checkArgs()"><font size="3px">查询并显示资源图像</font></button></td>
 </tr>		 
 </table>
-<hr/>
 
-<!--<iframe id="pro_frame" name="pro_frame" width=100% height=100% frameborder=0 onload="this.height=pro_frame.document.body.scrollHeight" style="display:none;"></iframe>-->
-
+<iframe id="pro_frame" name="pro_frame" width=100% height=100% frameborder=0 onload="this.height=pro_frame.document.body.scrollHeight" style="display:none;"></iframe>
+<!--
 <div id='pro_panel' style="display:none;">
 <font size='2'><strong>进程监控  <label id='host_label'></label></strong></font><br/>
 </div>
-
-<div><font size="1px" color="blue">*点击访问<a href='http://ocean.baidu.com/' target='_blank'>Ocean开发测试云</a>查询更多资源监控.</font></div>
+-->
+<div><br/><hr/><font size="1px" color="blue">*点击访问<a href='http://ocean.baidu.com/' target='_blank'>Ocean开发测试云</a>查询更多资源监控.</font></div>
 </body>
 </html>
 
