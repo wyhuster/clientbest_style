@@ -174,7 +174,11 @@
 	  //$model_row->add_column($model->getInfo());
 	  $model_row->add_log_row($model->getId());
 	  $model_row->add_column("<a href='/clientbest/web/st_ocean/ocean.php?id=".$model->getId()."'>view</a>");
-	  $model_row->add_column("<a href=''>view</a>");
+	  if($model->getPressModel() == "阶梯"){
+		$model_row->add_column("<a href=''>view</a>");
+	  }else{
+		$model_row->add_column("");
+	  }
  	  echo $model_row->render();
 	  //$file_path=$model->getToolContent();
 	  //$file = "/home/work/web/clientbest/web/configfiles/".$file_path."/press.conf";

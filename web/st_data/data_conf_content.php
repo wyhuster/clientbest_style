@@ -1,9 +1,5 @@
 ﻿<?php
 	error_reporting(E_ALL);
-	#require_once('../inc/commen.php');
-	require_once("/home/work/renm/apache/apache2/htdocs/clientbest/web/tools/factory.php");
-	#$timeNow = time();
-
 ?>
 
 <html><head>
@@ -22,19 +18,27 @@
 
 <?php
 
-	$ret_result = true;
 	$conf_file_path = $_GET['filepath'];
 	if(!isset($conf_file_path) || $conf_file_path == NULL ){
 		echo "请输入参数 conf_file_path.\n";
 		return;
 	}
 	echo "<h4>$conf_file_path</h4><br/>";
+	/**
 	$conf_content = file_get_contents($conf_file_path);
 	$content_arr = explode("\n", $conf_content);
 	foreach($content_arr as $row)
 	{
 		echo htmlspecialchars($row)."<br/>";
-	}	
+	}
+	*/
+
+	$file_handle = fopen($conf_file_path, "r");
+	while (!feof($file_handle)) {
+   		$line = fgets($file_handle);
+   		echo htmlspecialchars($line)."<br/>";
+	}
+	fclose($file_handle);
 ?>
 </body>
 </html>
