@@ -51,8 +51,10 @@
 	  {
 		$row_content = "";
 		foreach($tool_args["tool_args"] as $key => $value)
-	    	{
+	    {
+			if(($key ==  "url") or ($key == "type")){
 	    		$row_content = $row_content.$key."=".htmlspecialchars($value)."<br>";
+			}
 	   	}
 	   	$conf_file = $row_content.$tool_args["config_filedir"];
 	   	$conf_file_arr=explode("/",$conf_file);
@@ -71,10 +73,12 @@
 	   	}
 	   	closedir($handle);
 	   	$file_num=sizeof($list);
-	   	$row_content = $row_content."conf=";
+	   	//$row_content = $row_content."conf=";
 	   	for($index=0;$index<$file_num;$index++)
 	   	{
-			$row_content = $row_content."<a href='/clientbest/web/st_data/data_conf_content.php?filepath=".$file_path.$list[$index]."'>".$list[$index]."</a><br/>";
+			if($list[$index] != "python.pid"){
+				$row_content = $row_content."<a href='/clientbest/web/st_data/data_conf_content.php?filepath=".$file_path.$list[$index]."'>".$list[$index]."</a><br/>";
+			}
 	   	}
 	   	array_push($this->columns, $row_content);
 	  }

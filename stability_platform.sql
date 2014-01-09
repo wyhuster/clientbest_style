@@ -37,16 +37,6 @@ CREATE TABLE `data_playback` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Dumping data for table `data_playback`
---
-
-
-/*!40000 ALTER TABLE `data_playback` DISABLE KEYS */;
-LOCK TABLES `data_playback` WRITE;
-UNLOCK TABLES;
-/*!40000 ALTER TABLE `data_playback` ENABLE KEYS */;
-
---
 -- Table structure for table `history_record`
 --
 
@@ -56,22 +46,14 @@ CREATE TABLE `history_record` (
   `data_id` int(20) NOT NULL,
   `desc_info` varchar(256) collate utf8_unicode_ci NOT NULL,
   `time` timestamp NOT NULL default CURRENT_TIMESTAMP,
+  `stop_time` timestamp NOT NULL default '0000-00-00 00:00:00',
   `max_time` varchar(64) collate utf8_unicode_ci default NULL,
+  `pid` varchar(20) collate utf8_unicode_ci default NULL,
   `reserve2` varchar(64) collate utf8_unicode_ci default NULL,
   PRIMARY KEY  (`id`),
   KEY `data_id` (`data_id`),
   CONSTRAINT `history_record_ibfk_1` FOREIGN KEY (`data_id`) REFERENCES `data_playback` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Dumping data for table `history_record`
---
-
-
-/*!40000 ALTER TABLE `history_record` DISABLE KEYS */;
-LOCK TABLES `history_record` WRITE;
-UNLOCK TABLES;
-/*!40000 ALTER TABLE `history_record` ENABLE KEYS */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;

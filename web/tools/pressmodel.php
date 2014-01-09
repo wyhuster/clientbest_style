@@ -33,7 +33,13 @@ abstract class AbstractPressModel implements PressModel{
 	protected $usetime = "";//shuoming
 	protected $update_time = "" ;//历史记录时间
 	protected $running = 0;//当前测试是否在运行
+	protected $pid = "";
 
+
+	public function getPid()
+	{
+		return $this->pid;
+	}
 	public function getId()
 	{
 		return $this->histoty_id;
@@ -146,7 +152,8 @@ abstract class AbstractPressModel implements PressModel{
 		if(!$model){
 			return NULL;
 		}
-                $model->info = $row['desc_info'];
+        $model->info = $row['desc_info'];
+        $model->pid = $row['pid'];
 		$model->update_time = $row['time']."--".$row['stop_time'];
 		$model->id = $row['id'];
 		$model->histoty_id = $row['id'];
@@ -222,7 +229,7 @@ abstract class AbstractPressModel implements PressModel{
         public static function all_history_models()
         {
                global $db; 
-               $sql = "select history_record.id,history_record.desc_info,history_record.time,history_record.stop_time,data_playback.type,data_playback.module_server,data_playback.press_server,data_playback.press_mode,data_playback.press_args,data_playback.tool_name,data_playback.tool_args from history_record,data_playback where history_record.data_id=data_playback.id order by history_record.id desc";
+               $sql = "select history_record.id,history_record.desc_info,history_record.pid,history_record.time,history_record.stop_time,data_playback.type,data_playback.module_server,data_playback.press_server,data_playback.press_mode,data_playback.press_args,data_playback.tool_name,data_playback.tool_args from history_record,data_playback where history_record.data_id=data_playback.id order by history_record.id desc";
 	       $result = mysql_query($sql,$db);
 	       $all_models = array();
                if(!$result)
@@ -275,6 +282,11 @@ abstract class AbstractPressModel implements PressModel{
 			echo $errstr;
 			return;
 		}else{
+			$get_current_id = "select max(id) from history_record";
+			$result = mysql_query($get_current_id,$db);
+			$row = mysql_fetch_array($result);
+			$this->histoty_id = $row[0];
+			mysql_free_result($result);
 		}
 	}
 	function parseArgs($args)
@@ -398,10 +410,18 @@ abstract class AbstractPressModel implements PressModel{
 		//monitor when the press stop
 		$filedir = $this->tool_content['config_filedir'];
 		$name = $filedir."/python.pid";
-		if(!file_exists($name)) 
+		if(!file_exists($name)){
+			//start press fail
+			$data_sql = "update data_playback set running = 0 where id = ".$this->id;	
 			return false;
+		}
 		$pid = file_get_contents($name);
-		exec("php /home/work/renm/apache/apache2/htdocs/clientbest/web/tools/isRunning.php ".$pid." ".$this->press_server." >/dev/null 2>&1 &");
+		//add $pid to db
+		global $db;
+		$insert_pid = "update history_record set pid = ".$pid." where id = ".$this->histoty_id;
+		mysql_query($insert_pid,$db);
+		$base_path = "/home/work/renm/apache/apache2/htdocs/clientbest/web/tools";
+		exec("php ".$base_path."/isRunning.php ".$pid." ".$this->press_server." ".$this->id." ".$this->histoty_id." >>".$base_path."/monitor.log 2>&1 &");
 		
 		return $this->id;	
 	}
