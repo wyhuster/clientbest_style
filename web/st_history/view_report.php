@@ -105,4 +105,28 @@
 	
 	//display the press test args
 	
+
+function get_rps_and_rt_from_log($file){
+    $no_rps = array();
+    $no_rt = array();
+    $i = 1; 
+    while($i<=10){
+        $log = exec("tac ".$file." |sed -n ".$i."p");
+		$temp = explode(' ',$log);
+		$rps_temp = $temp[count($temp)-4];
+		$rps = substr($rps_temp,0,-1);
+		$rt = $temp[count($temp)-1]; 
+		$no_rps[$i] = $rps; 
+		$no_rt[$i] = $rt;
+	
+		$i = $i+1; 
+	}       
+	
+	asort($no_rps,SORT_NUMERIC);
+	$pos_array = array_keys($no_rps);
+	$pos = $pos_array[5];
+	
+	return array($no_rps[$pos], $no_rt[$pos]);
+
+}
 ?>
