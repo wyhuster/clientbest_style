@@ -4,6 +4,9 @@ configfiles/*
 #logs
 logs/*
 
+#reports
+#reports/*
+
 #svn 
 .svn
 .svn/*
