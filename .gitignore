@@ -5,7 +5,7 @@ configfiles/*
 logs/*
 
 #reports
-#reports/*
+reports/*
 
 #svn 
 .svn

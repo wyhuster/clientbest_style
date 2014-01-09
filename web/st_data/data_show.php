@@ -77,7 +77,7 @@
 	   	for($index=0;$index<$file_num;$index++)
 	   	{
 			if($list[$index] != "python.pid"){
-				$row_content = $row_content."<a href='/clientbest/web/st_data/data_conf_content.php?filepath=".$file_path.$list[$index]."'>".$list[$index]."</a><br/>";
+				$row_content = $row_content."<a href='/clientbest/web/st_data/data_conf_content.php?filepath=".$file_path.$list[$index]."'>".$list[$index]."</a>&nbsp;&nbsp;&nbsp;";
 			}
 	   	}
 	   	array_push($this->columns, $row_content);
