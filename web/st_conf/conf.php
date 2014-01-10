@@ -124,7 +124,7 @@
 		url：
 		</td><td>
 		<div>
-		    <input id="request_url" name="request_url" type="text" value=""  size="30"/>
+		    <input id="request_url" name="request_url" type="text" value=""  size="40"/>
 			<!--
 			<div id="params_container" style="display:inline;"></div>
 			<input type="button" id='add_param_btn' value="添加"/>
@@ -139,14 +139,14 @@
 		<tr><td  id="conf_args_name">
 		data：
 		</td><td>
-		<input type="text" name="request_data" size="30"/>
+		<input type="text" name="request_data" size="40"/>
 		</td></tr>
 		<tr><td  id="conf_args_name">
 		cookie：
 		</td><td>
-		<input type="text" name="request_cookie" size="30"/>
+		<input type="text" name="request_cookie" size="40"/>
 		</td></tr>
-		<tr><td><br/></td></tr>
+		<!--<tr><td><br/></td></tr>-->
 	</table>
 </div>
 
@@ -202,7 +202,7 @@
 			<!--<option value="xmpp">xmpp</option>-->
 		</select>
 		</td></tr>
-		<tr><td><br/></td></tr>
+		<!--<tr><td><br/></td></tr>-->
 	</table>
 	</td></tr>
 
@@ -233,28 +233,21 @@
 	<div id="tool_args">
 	</div>
 	</td></tr>
-	<!--
+	
 	 <tr><td valign="top" align=left>
-		被测模块</td><td>
+		被测服务</td>
+	<td>
 	 <table>  
 		<tr><td  id="conf_args_name">
-		 服务器：
-		</td><td>
-		<select id="server_name" name="server_name" size="1">
-			<option value="db-testing-bdcm02.db01.baidu.com" selected=true>bdcm02</option>
-			<option value="db-testing-bdcm03.db01.baidu.com">bdcm03</option>
-			<option value="db-testing-bdcm04.db01.baidu.com">bdcm04</option>
-			<option value="yx-testing-bdcm05.yx01.baidu.com">bdcm05</option>
-			<option value="db-testing-bdcm06.db01.baidu.com">bdcm06</option>
-			<option value="yx-testing-bdcm07.yx01.baidu.com">bdcm07</option>
-			<option value="db-testing-bdcm08.db01.baidu.com">bdcm08</option>
-		</select>
-
+		 主机名host：
+		 </td><td><div>
+		 <input id="server_name" name="server_name" type="text" value=""  size="40"/>
+		 </div>
 		</td></tr>
-		<tr><td><br/></td></tr>
-	</table>
-	</td></tr>
-	-->
+		</table><font size=2>*ocean资源查看需要主机名</font><br/>
+	</td>
+	</tr>
+	
 <!--	
 	 <tr><td valign="top" align=left>
 		环境模拟</td><td>

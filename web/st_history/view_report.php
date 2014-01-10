@@ -8,39 +8,48 @@
 	$id = $_GET["id"];
 	if(!isset($id)){
 		echo "no history id!!";
-		return;
+		exit(1);
 	}
 	
 	$report_path = $base_path."/reports/".$id."_report.html";
 	if(file_exists($report_path)){
 		//show the report
 		header("Location: /clientbest/reports/".$id."_report.html"); 										 
-		return;
+		exit(1);
 	}
 
 	
-	$sql = "select history_record.id,history_record.pid,history_record.time,history_record.stop_time,data_playback.type,data_playback.press_server,data_playback.press_args,data_playback.tool_args from history_record,data_playback where history_record.id=".$id." and history_record.data_id=data_playback.id";
+	$sql = "select history_record.id,history_record.pid,history_record.time,history_record.stop_time,data_playback.type,data_playback.press_server,data_playback.module_server,data_playback.press_args,data_playback.tool_args from history_record,data_playback where history_record.id=".$id." and history_record.data_id=data_playback.id";
 	$result = mysql_query($sql,$db);
 	if(!$result){
 		echo $sql."\nquery mysql failed!";
-		return;
+		exit(1);
 	}
 	$row = mysql_fetch_array($result);
     if(count($row) == 0){
         echo "no data in database!";
-        return;
+        exit(1);
     }
 	if($row['stop_time'] == "0000-00-00 00:00:00"){
 		echo "javascript:alert(\"测试正在运行!\");";
-		return;
+		exit(1);
 	}
 
-	
-	ob_start();
-	
-	echo "<html><head><title>Report</title></head><body>";
-
 	$press_server = $row['press_server'];
+	$module_server = $row['module_server'];
+	if(!isset($module_server)){
+		$module_server= $_GET["module_server"];
+	}
+	$module_server = trim($module_server);
+	echo $module_server."---";
+	if(!isset($module_server)){
+		echo "请输入被测服务运行的主机名host:<br/>";
+		echo "<form action="." method='get'>";
+		echo "<input type='text' name='module_server' size='40'><br/>";
+		echo "<input type='submit' value='提交' />";
+		echo "</form>";
+		exit(1);
+	}
 	$pid = $row['pid'];
 	$start = $row['time'];
 	$end = $row['stop_time'];
@@ -56,7 +65,13 @@
 	$qps_interval = intval($jieti_para['qps_interval']);
 	$time_interval = intval($jieti_para['time_interval']);
 	
-	echo "<h3>测试部署参数:</h3>";
+	ob_start();
+	
+	echo "<html><head><title>Report</title></head><body>";
+	
+	echo "<h2 style=\"text-align:center\">测试报告(id:".$id.")</h2>";
+	echo "<h3>(1)测试部署参数:</h3>";
+	echo "被测服务所在主机:".$module_server."</br>";
 	echo "压力运行服务器: ".$press_server."</br>";
 	echo "Pid: ".$pid."<br/>";
 	echo "测试时间: ".$start."--".$end."<br/>";
@@ -81,7 +96,7 @@
 
 	
 	echo "<br/><br/>";
-	echo "<h3>测试结论:</h3>";
+	echo "<h3>(2)测试结论:</h3>";
 	
 	/**
 	array qps->rps
@@ -177,7 +192,7 @@
 	$temp_html_content;
 	if(($TxtRes=fopen($report_path,"w+")) === FALSE){
 		echo("create report html ".$TxtFileName." fail");   	 
-		exit();
+		exit(1);
 				 
 	}		 
 	//echo ("crteat report xml".$TxtFileName."success！</br>");
@@ -185,7 +200,7 @@
 	if(!fwrite ($TxtRes,$temp_html_content)){
 		echo ("write html to ".$TxtFileName." fail:\n ".$StrConents);
 		fclose($TxtRes);
-		exit();       
+		exit(1);       
 	}
 	
     header("Location: /clientbest/reports/".$id."_report.html"); 										 
@@ -242,10 +257,11 @@ function get_log_files($qps){
 
 function get_ocean_data($qps){
 	global $array_qps_time;
+	global $module_server;
 	$starttime = $array_qps_time[$qps][0];
 	$endtime = $array_qps_time[$qps][1];
 	
-	$query_url = "http://ocean.baidu.com/realtime/list/?beginTime=".$starttime."&endTime=".$endtime."&host=cp01-testing-bdcm06.cp01.baidu.com&monItems=CPU_IDLE,MEM_URATE,SERVER_LOADAVG1,IO_AVGWAIT";
+	$query_url = "http://ocean.baidu.com/realtime/list/?beginTime=".$starttime."&endTime=".$endtime."&host=".$module_server."&monItems=CPU_IDLE,MEM_URATE,SERVER_LOADAVG1,IO_AVGWAIT";
 	
 	$xml = simplexml_load_file($query_url);
 	$max = $xml->maxValue;
