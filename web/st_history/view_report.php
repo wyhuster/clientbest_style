@@ -1,6 +1,8 @@
 <?php
 	error_reporting(E_ALL);
+	date_default_timezone_set("Asia/Chongqing");
 	require_once('/home/work/renm/apache/apache2/htdocs/clientbest/web/config.php');
+	
 	$base_path = "/home/work/renm/apache/apache2/htdocs/clientbest";
 	
 	$id = $_GET["id"];
@@ -12,7 +14,7 @@
 	$report_path = $base_path."/reports/".$id."_report.html";
 	if(file_exists($report_path)){
 		//show the report
-		
+		header("Location: /clientbest/reports/".$id."_report.html"); 										 
 		return;
 	}
 
@@ -35,6 +37,8 @@
 
 	
 	ob_start();
+	
+	echo "<html><head><title>Report</title></head><body>";
 
 	$press_server = $row['press_server'];
 	$pid = $row['pid'];
@@ -52,8 +56,8 @@
 	$qps_interval = intval($jieti_para['qps_interval']);
 	$time_interval = intval($jieti_para['time_interval']);
 	
-	echo "<h3>测试部署参数:</h3><br/>";
-	echo "压力运行服务器: ".$req_para + "&nbsp;&nbsp;&nbsp;";
+	echo "<h3>测试部署参数:</h3>";
+	echo "压力运行服务器: ".$press_server."</br>";
 	echo "Pid: ".$pid."<br/>";
 	echo "测试时间: ".$start."--".$end."<br/>";
 	
@@ -63,11 +67,12 @@
 	
 	$post_data = $config_file."/data";
 	$cookie = $config_file."/cookie";
+	echo $post_data."<br/>";
 	if(file_exists($post_data)){
-		echo "Post data: ".$file_get_contents($post_data)."<br/>";
+		echo "Post data: ".file_get_contents($post_data)."<br/>";
 	}
 	if(file_exists($cookie)){
-		echo "Cookie: ".$file_get_contents($post_data)."<br/>";
+		echo "Cookie: ".file_get_contents($post_data)."<br/>";
 	}
 
 	echo "<strong>压力参数:</strong><br/>";
@@ -76,7 +81,7 @@
 
 	
 	echo "<br/><br/>";
-	echo "<h3>测试结论:</h3><br/>";
+	echo "<h3>测试结论:</h3>";
 	
 	/**
 	array qps->rps
@@ -99,7 +104,12 @@
 
 	$array_qps = array();
 	$array_qps_time = array();
-	date_default_timezone_set("Asia/Chongqing");
+	$array_qps_rps = array();
+	$array_qps_rt = array();
+	$array_qps_cpu = array();
+	$array_qps_mem = array();
+	$array_qps_load = array();
+	$array_qps_io = array();
 	
 	$no = 0;
 	$qps = $qps_start;
@@ -121,33 +131,65 @@
 		$qps = $qps + $qps_interval;
 	}
 
-	$array_qps_rps = array();
-	$array_qps_rt = array();
-	$array_qps_cpu = array();
-	$array_qps_mem = array();
-	$array_qps_load = array();
-	$array_qps_io = array();
 
 	foreach($array_qps as $qps){
 		$rps_rt = get_rps_and_rt_from_log($qps);
 		$array_qps_rps[$qps] = $rps_rt[0];
 		$array_qps_rt[$qps] = $rps_rt[1];
+		
+		$item_size = get_ocean_data($qps);	
+		$array_qps_cpu[$qps] = $item_size["cpu"]; 
+		$array_qps_mem[$qps] = $item_size["mem"]; 
+		$array_qps_load[$qps] = $item_size["load"]; 
+		$array_qps_io[$qps] = $item_size["io"]; 
 	}
+	//print_r($array_qps_cpu);
 	
-	
+	echo "<table border>";
+	echo "<thead><tr><th rowspan=2>qps</th><th rowspan=2>rps</th><th rowspan=2>response time(ms)</th><th colspan=3>cpu idle(%)</th>
+		 <th colspan=3>mem used(%)</th><th colspan=3>load</th><th colspan=3>io wait(ms)</th></tr>";
+	echo "<tr><th>max</th><th>avg</th><th>min</th><th>max</th><th>avg</th><th>min</th><th>max</th><th>avg</th><th>min</th><th>max</th>
+		 <th>avg</th><th>min</th></tr></thead>";
+	echo "<tbody>";
+	foreach($array_qps as $qps){
+		echo "<tr><td>".$qps."</td>";
+		echo "<td>".$array_qps_rps[$qps]."</td>";
+		echo "<td>".$array_qps_rt[$qps]."</td>";
+		echo "<td>".$array_qps_cpu[$qps]["max"]."</td>";
+		echo "<td>".$array_qps_cpu[$qps]["avg"]."</td>";
+		echo "<td>".$array_qps_cpu[$qps]["min"]."</td>";
+		echo "<td>".$array_qps_mem[$qps]["max"]."</td>";
+		echo "<td>".$array_qps_mem[$qps]["avg"]."</td>";
+		echo "<td>".$array_qps_mem[$qps]["min"]."</td>";
+		echo "<td>".$array_qps_load[$qps]["max"]."</td>";
+		echo "<td>".$array_qps_load[$qps]["avg"]."</td>";
+		echo "<td>".$array_qps_load[$qps]["min"]."</td>";
+		echo "<td>".$array_qps_io[$qps]["max"]."</td>";
+		echo "<td>".$array_qps_io[$qps]["avg"]."</td>";
+		echo "<td>".$array_qps_io[$qps]["min"]."</td></tr>";
+	}
+	echo "</tbody></table></body></html>";
 
-
-	
-	$temp = ob_get_contents();
+	$temp_html_content = ob_get_contents();
 	ob_end_clean();
-
-
-	
 	
 	//generate the report
+	$temp_html_content;
+	if(($TxtRes=fopen($report_path,"w+")) === FALSE){
+		echo("create report html ".$TxtFileName." fail");   	 
+		exit();
+				 
+	}		 
+	//echo ("crteat report xml".$TxtFileName."success！</br>");
+				 
+	if(!fwrite ($TxtRes,$temp_html_content)){
+		echo ("write html to ".$TxtFileName." fail:\n ".$StrConents);
+		fclose($TxtRes);
+		exit();       
+	}
 	
-	//display the press test args
-	
+    header("Location: /clientbest/reports/".$id."_report.html"); 										 
+		
 
 function get_rps_and_rt_from_log($qps){
 
@@ -181,7 +223,7 @@ function get_log_files($qps){
 	global $base_path;
 	global $id;
 
-	$file_path = $base_path"/logs/".$id."_curlpress_log/";
+	$file_path = $base_path."/logs/".$id."_curlpress_log/";
     if(!is_dir($file_path)){
         return;
     }
@@ -189,7 +231,7 @@ function get_log_files($qps){
     while($file=readdir($handle))
     {
 		$qps_num = "qps".$qps;
-		if(substr_count($file,$qps_num);
+		if(substr_count($file,$qps_num)!=0)
 		{
 			return $file_path.$file;
 		}
@@ -209,5 +251,31 @@ function get_ocean_data($qps){
 	$max = $xml->maxValue;
 	$avg = $xml->averageValue;
 	$min = $xml->minValue;
+	
+	//echo($max);
+	//echo "\n";
+	//$max_array = explode(' ',trim($max));
+	$max_array=preg_split('/[\s,;]+/',$max);
+	$avg_array=preg_split('/[\s,;]+/',$avg);
+	$min_array=preg_split('/[\s,;]+/',$min);
+	//print_r($max_array);
+	//echo "\n";
+	//$avg_array = explode(' ',$avg);
+	//$min_array = explode(' ',$min);
+	$temp_array["cpu"]["max"] = $max_array[0];
+	$temp_array["cpu"]["avg"] = $avg_array[0];
+	$temp_array["cpu"]["min"] = $min_array[0];
+	$temp_array["mem"]["max"] = $max_array[1];
+	$temp_array["mem"]["avg"] = $avg_array[1];
+	$temp_array["mem"]["min"] = $min_array[1];
+	$temp_array["load"]["max"] = $max_array[2];
+	$temp_array["load"]["avg"] = $avg_array[2];
+	$temp_array["load"]["min"] = $min_array[2];
+	$temp_array["io"]["max"] = $max_array[3];
+	$temp_array["io"]["avg"] = $avg_array[3];
+	$temp_array["io"]["min"] = $min_array[3];
+	//print_r($temp_array);
+	//echo "\n";
+	return $temp_array;
 }
 ?>
