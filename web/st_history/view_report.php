@@ -10,12 +10,14 @@
 		echo "no history id!!";
 		exit(1);
 	}
-	
+
 	$report_path = $base_path."/reports/".$id."_report.html";
-	if(file_exists($report_path)){
-		//show the report
-		header("Location: /clientbest/reports/".$id."_report.html"); 										 
-		exit(1);
+	if(!isset($_GET["generate"])){
+		if(file_exists($report_path)){
+			//show the report
+			header("Location: /clientbest/reports/".$id."_report.html"); 										 
+			exit(1);
+		}
 	}
 
 	
@@ -31,23 +33,32 @@
         exit(1);
     }
 	if($row['stop_time'] == "0000-00-00 00:00:00"){
-		echo "javascript:alert(\"测试正在运行!\");";
+		echo "<script language ='javascript'>";
+		echo "window.alert(\"测试正在运行!\");";
+		echo "history.go(-1);";
+		echo "</script>";
 		exit(1);
 	}
 
 	$press_server = $row['press_server'];
 	$module_server = $row['module_server'];
-	if(!isset($module_server)){
+	if(trim($module_server) == ''){
 		$module_server= $_GET["module_server"];
 	}
 	$module_server = trim($module_server);
-	echo $module_server."---";
-	if(!isset($module_server)){
+	if(!isset($_GET["module_server"]) and ($module_server == '')){
+		echo "<html><head><title>请输入被测主机名</title></head><body bgcolor='#FAFCFF'>";
 		echo "请输入被测服务运行的主机名host:<br/>";
-		echo "<form action="." method='get'>";
+		echo "<font size=2>(用于获取Ocean数据)</font><br/>";
+		echo "<form action='' method='get'>";
+		echo "<input type='hidden' name='id' value='".$id."'/>";
+		if(isset($_GET["generate"])){
+			echo "<input type='hidden' name='generate' value='generate'/>";
+		}
 		echo "<input type='text' name='module_server' size='40'><br/>";
 		echo "<input type='submit' value='提交' />";
 		echo "</form>";
+		echo "</body></html>";
 		exit(1);
 	}
 	$pid = $row['pid'];
@@ -67,11 +78,12 @@
 	
 	ob_start();
 	
-	echo "<html><head><title>Report</title></head><body>";
+	echo "<html><head><title>Report</title></head><body bgcolor='#FAFCFF'>";
 	
 	echo "<h2 style=\"text-align:center\">测试报告(id:".$id.")</h2>";
+	echo "<h4 style=\"text-align:right\">报告时间:".date('Y-m-d H:i:s')."</h4>";
 	echo "<h3>(1)测试部署参数:</h3>";
-	echo "被测服务所在主机:".$module_server."</br>";
+	echo "被测服务所在主机: ".$module_server."</br>";
 	echo "压力运行服务器: ".$press_server."</br>";
 	echo "Pid: ".$pid."<br/>";
 	echo "测试时间: ".$start."--".$end."<br/>";
@@ -82,7 +94,6 @@
 	
 	$post_data = $config_file."/data";
 	$cookie = $config_file."/cookie";
-	echo $post_data."<br/>";
 	if(file_exists($post_data)){
 		echo "Post data: ".file_get_contents($post_data)."<br/>";
 	}
@@ -95,7 +106,7 @@
 	echo "每qps运行时间: ".strval($time_interval)."min&nbsp;&nbsp;&nbsp;间隔时间: 1min<br/>";
 
 	
-	echo "<br/><br/>";
+	echo "<br/>";
 	echo "<h3>(2)测试结论:</h3>";
 	
 	/**
@@ -183,22 +194,27 @@
 		echo "<td>".$array_qps_io[$qps]["avg"]."</td>";
 		echo "<td>".$array_qps_io[$qps]["min"]."</td></tr>";
 	}
-	echo "</tbody></table></body></html>";
+	echo "</tbody></table>";
+	echo "<br/><br/>";
+	echo "<form action='/clientbest/web/st_history/view_report.php' method='get'>";
+	echo "<input type='hidden' name ='id' value='".$id."'/>";
+	echo "<input type='hidden' name ='generate' value='generate'/>";
+	echo "<input type='submit' value='重新生成报告'/></form>";
+	echo "</body></html>";
 
 	$temp_html_content = ob_get_contents();
 	ob_end_clean();
 	
 	//generate the report
-	$temp_html_content;
 	if(($TxtRes=fopen($report_path,"w+")) === FALSE){
-		echo("create report html ".$TxtFileName." fail");   	 
+		echo("create report html ".$report_path." fail");   	 
 		exit(1);
 				 
 	}		 
 	//echo ("crteat report xml".$TxtFileName."success！</br>");
 				 
 	if(!fwrite ($TxtRes,$temp_html_content)){
-		echo ("write html to ".$TxtFileName." fail:\n ".$StrConents);
+		echo ("write html to ".$report_path." fail:\n ".$StrConents);
 		fclose($TxtRes);
 		exit(1);       
 	}

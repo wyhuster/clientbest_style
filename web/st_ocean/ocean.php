@@ -15,7 +15,7 @@
 <?php
 	$id = $_GET["id"];
 	if(isset($id)){
-		$sql = "select history_record.time,history_record.stop_time,data_playback.press_server,data_playback.tool_args from history_record,data_playback where history_record.id=$id and history_record.data_id=data_playback.id";
+		$sql = "select history_record.time,history_record.stop_time,data_playback.module_server,data_playback.press_server,data_playback.tool_args from history_record,data_playback where history_record.id=$id and history_record.data_id=data_playback.id";
 		$result = mysql_query($sql);
 		if(!$result)
         {
@@ -30,20 +30,23 @@
 
 		$starttime = $row["time"];
 		$stoptime = $row["stop_time"];
+		$module_server = $row["module_server"];
 		$press_server = $row["press_server"];
 		$tool_args = $row["tool_args"];
 
 		$json_args = json_decode($tool_args,true);
 		echo "<font size='2'><strong>压力参数 id=".$id."</strong></font><br/>";
-		echo "url: ".$json_args["tool_args"]["url"]."<br/>";
-		echo "press server: ".$press_server."</br>";
-		echo "start time: ".$starttime."<br/>";
+		echo "<table>";
+		echo "<tr><td>url:</td><td>".$json_args["tool_args"]["url"]."</td></tr>";
+		echo "<tr><td>service host: </td><td>".$module_server."</td></tr>";
+		echo "<tr><td>press server: </td><td>".$press_server."</td></tr>";
+		echo "<tr><td>start time:</td><td>".$starttime."</td></tr>";
 		if($stoptime == "0000-00-00 00:00:00"){
-			echo "<font color='red'>正在运行...</font>";
+			echo "<tr><td><font color='red'>正在运行...</font></td></tr>";
 		}else{
-			echo "stop time: ".$stoptime;
+			echo "<tr><td>stop time:</td><td>".$stoptime."</td></tr>";
 		}
-		echo "<br/><hr/>";
+		echo "</table><hr/>";
 
 		mysql_free_result($result);
 		
@@ -55,7 +58,7 @@
 		<table>
 		<tr>
 		<td>*主机名host：</td>
-		<td><input type='text' id='hostname' placeholder='cp01-testing-bdcm06.cp01.baidu.com' size='51'></td>
+		<td><input type='text' id='hostname' placeholder='cp01-testing-bdcm06.cp01.baidu.com' value='".$module_server."' size='51'></td>
 		<td><button onclick='showProOcean()'>进程监控</button></td>
 		</tr>
 		<tr>

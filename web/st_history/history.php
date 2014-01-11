@@ -175,7 +175,7 @@
 	  $model_row->add_log_row($model->getId());
 	  $model_row->add_column("<a href='/clientbest/web/st_ocean/ocean.php?id=".$model->getId()."'>view</a>");
 	  if($model->getPressModel() == "阶梯"){
-		  $model_row->add_column("<a href='/clientbest/web/st_history/view_report.php?id=12".$model->getId()."'>view</a>");
+		  $model_row->add_column("<a href='/clientbest/web/st_history/view_report.php?id=".$model->getId()."'>view</a>");
 	  }else{
 		$model_row->add_column("");
 	  }
