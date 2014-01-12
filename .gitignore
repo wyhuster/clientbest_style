@@ -10,3 +10,6 @@ reports/*
 #svn 
 .svn
 .svn/*
+
+#monitor log
+web/tools/monitor.log

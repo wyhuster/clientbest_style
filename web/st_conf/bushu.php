@@ -19,22 +19,22 @@
 
 <?php
 	$model = running_model();
-        if($model){
-                $model->show();
-                echo "<br>";
-                echo "<input type=button value='停止'/>";
-                echo "<script> alert('您已经在运行测试了，请先停止先前的测试！');</script>";
-                return;
-        }
+	if($model){
+			$model->show();
+			echo "<br>";
+			echo "<input type=button value='停止'/>";
+			echo "<script> alert('您已经在运行测试了，请先停止先前的测试！');</script>";
+			return;
+	 }
 
 	$type_name = $_POST['test_type'];
 	echo "测试类型: ".$type_name."<br>";
 
-	echo "<hr>";
-	$loader = ToolFactory::getTool("loader");
-	$loader->parseConfig($_POST);
-	$loader->generateConfig(0);
-	$loader->show();
+	//echo "<hr>";
+	//$loader = ToolFactory::getTool("loader");
+	//$loader->parseConfig($_POST);
+	//$loader->generateConfig(0);
+	//$loader->show();
 
 	echo "<hr>";
 	$model = PressModelFactory::getModel($_POST['press_model']);

@@ -5,17 +5,10 @@
  var langyong; 
  var zhendang;
 
- //工具相关
- var tool_content;
- var tool_curlpress;
- var tool_curlload;
- var tool_jase;
- var tool_xmpp2;
- 
-
 function load()
 {
-	 
+	
+   showPostData(false);
 	//设置压力模型
    press_model_content = document.getElementById("press_model_args");
    hending = document.getElementById("press_model_hending").innerHTML;
@@ -24,75 +17,8 @@ function load()
    zhendang = document.getElementById("press_model_zhengdang").innerHTML;
    //alert(document.getElementById("press_model") );
    change_press_model(document.getElementById("press_model"));
-
-
-   //设置工具
-   tool_content = document.getElementById("tool_args");
-   tool_curlpress = document.getElementById("tool_curlpress").innerHTML;
-   tool_curlload  = document.getElementById("tool_curlload").innerHTML;
-   tool_jase  = document.getElementById("tool_jase").innerHTML;
-   tool_xmpp2  = document.getElementById("tool_xmpp2").innerHTML;
-   
-   change_type(document.getElementById("test_type"));
-
 }
 
-
-function change_type(obj)
-{
-   var tools =[
-	   ["curlpress"],  /* http */ 
-	   ["jase","xmpp2"]          /* xmpp */
-	];
-    
-    var tool;
-   
-	var type = obj.options[obj.selectedIndex].value;
-	switch(type){
-	case "http":
-		tool = tools[0];
-		break;
-	case "xmpp":
-		tool = tools[1];
-		break;
-	default:
-		tool = [];
-		alert("不支持的测试类型！！！");
-	}
-	
-	var test_tool = document.getElementById("test_tool");
-	test_tool.length = 0;
-	for(i = 0; i < tool.length; i ++){
-		test_tool[i] = new Option(tool[i],tool[i]);
-	}
-
-	change_tool(test_tool);
-	
-}
-
-function change_tool(obj)
-{
-
-	var tool = obj.options[obj.selectedIndex].value;
-	switch(tool){
-	case "curlpress":
-		tool_content.innerHTML = tool_curlpress;
-		break;
-	case "curlload":
-		tool_content.innerHTML = tool_curlload;
-		break;
-	case "jase":
-		tool_content.innerHTML = tool_jase;
-		break;
-	case "xmpp2":
-		tool_content.innerHTML = tool_xmpp2;
-		break;
-	default:
-		alert("不支持的工具!!!");
-	
-	
-	}
-}
 
 function change_press_model(obj)
 {
@@ -118,48 +44,38 @@ function change_press_model(obj)
 	
 }
 
+function showPostData(ok){
+	if(ok == true){
+		document.getElementById("tb_curlpress").rows[2].style.display="table-row";
+	}else{
+		document.getElementById("tb_curlpress").rows[2].style.display="none";
+	}
+}
+
 function onlynum(text)
 {
 	text.value=text.value.replace(/[^\d]/g,'');
 }
 
-function showLoaderArgs( show)
-{
-	var style = document.getElementById("Loader_args").style;
-	if(show)
-		style.display = "block";
-	else
-		style.display = "none";
-}
-
-function checkTool(){
-	var obj = document.getElementById("test_tool");
-	var tool = obj.options[obj.selectedIndex].value;
-	switch(tool){
-	case "curlpress":
-		var text = document.getElementById("request_data")
-	//	alert(text.value);
-	//	data = text.value;
-	//		if(data == "")return false;
-		break;
-	case "curlload":
-		break;
-	case "jase":
-		break;
-	case "xmpp2":
-		break;
-	default:
-		alert("不支持的工具!!!");
-		return false;
-	}
-	return true;
-}
 
 function checkArgs()
 {
 
-	if(!checkTool()) 
+	var url = document.getElementById("request_url");
+	if(url.value == ""){
+		alert("url不能为空!");
+		url.focus();
 		return false;
+	}
+	
+	var press_args = press_model_content.getElementsByTagName("input");
+	for(var i=0,len=press_args.length;i<len;i++){
+		if(press_args[i].value.replace(/\s/g,'') == ''){
+			alert('存在空的压力参数!');
+			press_args[i].focus();
+			return false;
+		}
+	}
 
 	var tool_obj = document.getElementById("test_tool");
 	var tool = tool_obj.options[tool_obj.selectedIndex].value;
