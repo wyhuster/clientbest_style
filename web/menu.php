@@ -1,27 +1,10 @@
-﻿<?php
-error_reporting(0);
-require_once('./inc/commen.php');
-
-$timeNow = time();
-$myTime  = new CMyTime();
-$myTime->str_time = date("Y-m-d", $timeNow);
-$myTime->strTime = date("Ymd", $timeNow);
-$myTime->nTime   = $timeNow;
-
-$nodelist = new CNodeList();
-$nodelist->init();
-
-$iItemCount = 0;
-
-//Vendor('FtpUpload.FtpUpload');
-?>
-
-<html><head>
+<html>
+<head>
 <title>测试平台</title>
 <meta http-equiv=Content-Type content="text/html; charset=utf-8">
 <meta http-equiv=html content=no-cache>
 <link href="./img/style.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="./img/js.js"></script>
+<!--<script type="text/javascript" src="./img/js.js"></script>-->
 </head>
 
 
@@ -30,7 +13,7 @@ $iItemCount = 0;
 <table width=100% height=100% cellpadding=2 cellspacing=0 border=0>  
 	  <tr><td valign="top" align=left>
 		
-				<table width=98%>  
+			<table width=98%>  
 			<a  href="./intro.php" style="font-weight:bolder;"  target=window_main>稳定性测试</a>
 			<td id=submenuboarda>
 			<table cellSpacing=0 cellPadding=0 width=100% align=left>  

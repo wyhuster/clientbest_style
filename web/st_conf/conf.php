@@ -132,7 +132,7 @@
 <table width = 100% cellpading=2 cellspacing=2 border=0>
 <tr>
 <td>
-	<table width=800px  cellpadding=2 cellspacing=0 border=1 align="left">  
+	<table width=600px  cellpadding=2 cellspacing=0 border=1 align="left">  
 		<tr>
 		<td valign="top" align=left width="120px">测试类型</td>
 		<td algin="left">
@@ -243,7 +243,7 @@
 </tr>
 <tr>
 <td>
-	&nbsp;&nbsp;<input type="submit" value="部署" onclick="return checkArgs()"></input>
+	&nbsp;&nbsp;<input type="submit" size='4' value="部署" onclick="return checkArgs()"></input>
 </td>
 </tr>
 </table>

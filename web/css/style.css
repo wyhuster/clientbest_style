@@ -37,7 +37,7 @@ h2 {
      -moz-border-radius: 6px;
           border-radius: 6px;
 }
-#test_type {
+#test_type,#test_tool,#run_server{
   width:90px;
 }
 #fengefu{
