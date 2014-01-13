@@ -1,257 +1,213 @@
-﻿<?php
-	error_reporting(E_ALL);
-	require_once('/home/work/renm/apache/apache2/htdocs/clientbest/web/common.php');
+<?php
+    error_reporting(E_ALL);
+    require_once('/home/work/renm/apache/apache2/htdocs/clientbest/web/common.php');
+    require_once('/home/work/renm/apache/apache2/htdocs/clientbest/web/head.php');
+    require_once('/home/work/renm/apache/apache2/htdocs/clientbest/web/st_conf/side_menu.php');
 ?>
 
-<html><head>
-<title>测试部署</title>
-<meta http-equiv=Content-Type content="text/html; charset=utf-8">
-<meta http-equiv=html content=no-cache>
-<link href="./../css/style.css" rel="stylesheet" type="text/css" />
-<!--<link href="./../css/bootstrap.css" rel="stylesheet" type="text/css" />-->
-<script type="text/javascript" src="./../js/conf.js"></script>
-</head>
+<div id="content">
+<div id="content-header">
+  <div id="breadcrumb"> 
+      <a href="../index.php" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> 
+      <a href="#" class="current">测试部署</a> 
+  </div>
+</div>
+<div class="container-fluid">
 
-<body bgcolor="#FAFCFF" >
-<div>   
-<h3 align="left">测试部署</h3>
-<hr/>
+<?php
+    $model = running_model();
+    if($model){
+        echo "<p align = center style='font-family:Arial;font-size:20px;padding-top:15px; font-weight:bolder;' >您部署的测试正在运行中...<p>";
+        $model->show();
+		echo "</div></div>";
+		require_once('/home/work/renm/apache/apache2/htdocs/clientbest/web/foot.php');
+        return;
+    }
+
+?>
+
+  <div class="row-fluid">
+    <div class="span10">
+      <div class="widget-box">
+        <div class="widget-title"> <span class="icon"> <i class="icon-align-justify"></i> </span>
+          <h5>部署参数</h5>
+        </div>
+        <div class="widget-content nopadding">
+          <form action="bushu.php" method="post" class="form-horizontal">
+			<input name="test_type" id="test_type" type="hidden" value="http"/>
+            <input name="test_tool" id="test_tool" type="hidden" value="curlpress"/>
+           
+            <div class="control-group">
+              <label class="control-label">测试运行服务器 :</label>
+              <div class="controls">
+				<select id="run_server" class="span6" name="run_server" size="1">
+                <option value="cp01-testing-bdcm05.cp01.baidu.com" selected=true>cp01-testing-bdcm05.cp01.baidu.com</option>
+                <option value="cp01-testing-bdcm06.cp01.baidu.com">cp01-testing-bdcm06.cp01.baidu.com</option>
+                <option value="cp01-testing-bdcm07.cp01.baidu.com">cp01-testing-bdcm07.cp01.baidu.com</option>
+                <option value="cp01-testing-bdcm08.cp01.baidu.com">cp01-testing-bdcm08.cp01.baidu.com</option>
+                </select>
+              </div>
+            </div>
+		   
+		    <div class="control-group">
+              <label class="control-label">被测服务主机名 :</label>
+              <div class="controls">
+                <input type="text" id="server_name" name="server_name" class="span6" />
+                <span class="help-block">*ocean资源查看需要主机名</span> </div>
+            </div>
+
+            <div class="control-group">
+              <label class="control-label">请求方式 :</label>
+              <div class="controls">
+				  <input type="radio" name="request_method" value="GET" checked onclick='showPostData(false)'>Get&nbsp;&nbsp;&nbsp;</input>
+				  <input type="radio" name="request_method" value="POST" onclick='showPostData(true)'>Post</input>
+              </div>
+            </div>
+		   
+            <div class="control-group">
+              <label class="control-label">url :</label>
+              <div class="controls">
+                <input id="request_url" name="request_url" type="text" class="span6" value="" />
+              </div>
+            </div>
+		   
+            <div class="control-group" id="div_conf_data">
+              <label class="control-label">post data :</label>
+              <div class="controls">
+                <textarea name="request_data" type="text" class="span6" value=""></textarea>
+              </div>
+            </div>
+		   
+            <div class="control-group">
+              <label class="control-label">cookie :</label>
+              <div class="controls">
+                <input name="request_cookie" type="text" class="span6" value=""/>
+              </div>
+            </div>
+            
+            <div class="control-group">
+              <label class="control-label">压力模型 :</label>
+              <div class="controls">
+                <select name="press_model" id="press_model" class="span6" onchange="change_press_model(this)">
+                <option value="hengding" selected=true>恒定</option>
+                <option value="jieti" >阶梯</option>
+                <option value="zhendang" >震荡</option>
+                <option value="langyong" >浪涌</option>
+                </select>
+              </div>
+            </div>
+			
+			<div id = "press_model_args"></div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn btn-success" onclick="return checkArgs()">部署</button>
+            </div>
+          </form>
+        </div>
+      </div>
+   </div>
+</div>
+</div>
 </div>
 
-<?php 
-    $model = running_model();
-	if($model){
-		echo "<p align = center style='font-family:Arial;font-size:20px;padding-top:15px; font-weight:bolder;' >您部署的测试正在运行中...<p>";
-		$model->show();
-		return;
-	}
-
-?>
 
 
 <div id="press_model_hending" style="display:none" >
-	<table name="press_model_table">
-		<tr>
-		<td id="conf_args_name">qps：</td>
-		<td>
-		<input type="text" size="8" name="qps" maxlength="5" onkeyup="onlynum(this)" onafterpaste="onlynum(this)"></input>
-		</td>
-		</tr>
-		<tr>
-		<td id="conf_args_name">时间(min)：</td>
-		<td>
-		<input type="text" size="8" name="time" maxlength="5" onkeyup="onlynum(this)" onafterpaste="onlynum(this)"></input>
-		</td>
-		</tr>
-	</table>
+   <div class="control-group">
+     <label class="control-label">qps :</label>
+     <div class="controls">
+       <input name="qps" type="text" class="span6" onkeyup="onlynum(this)" onafterpaste="onlynum(this)"/>
+     </div>
+   </div>
+   <div class="control-group">
+     <label class="control-label">时间(min) :</label>
+     <div class="controls">
+       <input name="time" type="text" class="span6" onkeyup="onlynum(this)" onafterpaste="onlynum(this)"/>
+     </div>
+   </div>
 </div>
 
 
 <div id="press_model_jieti" style="display:none">
-	<table name="press_model_table">
-		<tr>
-		<td id="conf_args_name">开始qps：</td>
-		<td>
-		<input type="text" size="8" name="qps_start" maxlength="5" onkeyup="onlynum(this)" onafterpaste="onlynum(this)"></input>
-		</td>
-		</tr>
-		<tr><td id="conf_args_name">结束qps：</td>
-		<td>
-		<input type="text" size="8" name="qps_end" maxlength="5" onkeyup="onlynum(this)" onafterpaste="onlynum(this)"></input>
-		</td>
-		</tr>
-		<tr><td id="conf_args_name">qps间隔：</td>
-		<td>
-		<input type="text" size="8" name="qps_interval" maxlength="5" onkeyup="onlynum(this)" onafterpaste="onlynum(this)"></input>
-		</td>
-		</tr>
-		<tr>
-		<td id="conf_args_name">每qps压力时间(min)：</td>
-		<td>
-		<input type="text" size="8" name="time_interval" maxlength="5" onkeyup="onlynum(this)" onafterpaste="onlynum(this)"></input>
-		</td>
-		</tr>
-	</table>
+   <div class="control-group">
+     <label class="control-label">开始qps :</label>
+     <div class="controls">
+       <input name="qps_start" type="text" class="span6" onkeyup="onlynum(this)" onafterpaste="onlynum(this)"/>
+     </div>
+   </div>
+   <div class="control-group">
+     <label class="control-label">结束qps :</label>
+     <div class="controls">
+       <input name="qps_end" type="text" class="span6" onkeyup="onlynum(this)" onafterpaste="onlynum(this)"/>
+     </div>
+   </div>
+   <div class="control-group">
+     <label class="control-label">qps间隔 :</label>
+     <div class="controls">
+       <input name="qps_interval" type="text" class="span6" onkeyup="onlynum(this)" onafterpaste="onlynum(this)"/>
+     </div>
+   </div>
+   <div class="control-group">
+     <label class="control-label">每qps压力时间(min) :</label>
+     <div class="controls">
+       <input name="time_interval" type="text" class="span6" onkeyup="onlynum(this)" onafterpaste="onlynum(this)"/>
+     </div>
+   </div>
 </div>
 
-
 <div id="press_model_langyong" style="display:none">
-	<table name="press_model_table">
-		<tr>
-		<td id="conf_args_name">最低qps：</td>
-		<td>
-		<input type="text" size="8" name="low_qps" maxlength="5" onkeyup="onlynum(this)" onafterpaste="onlynum(this)"></input>
-		</td>
-		</tr>
-		<tr><td id="conf_args_name">最高qps：</td>
-		<td>
-		<input type="text" size="8" name="high_qps" maxlength="5" onkeyup="onlynum(this)" onafterpaste="onlynum(this)"></input>
-		</td>
-		</tr>
-		<tr>
-		<td id="conf_args_name">时间间隔(min)：</td>
-		<td>
-		<input type="text" size="8" name="time_interval" maxlength="5" onkeyup="onlynum(this)" onafterpaste="onlynum(this)"></input>
-		</td>
-		</tr>
-		<tr>
-		<td id="conf_args_name">时间(min)：</td>
-		<td>
-		<input type="text" size="8" name="time" maxlength="5" onkeyup="onlynum(this)" onafterpaste="onlynum(this)"></input>
-		</td>
-		</tr>
-	</table>
+   <div class="control-group">
+     <label class="control-label">最低qps :</label>
+     <div class="controls">
+       <input name="low_qps" type="text" class="span6" onkeyup="onlynum(this)" onafterpaste="onlynum(this)"/>
+     </div>
+   </div>
+   <div class="control-group">
+     <label class="control-label">最高qps :</label>
+     <div class="controls">
+       <input name="high_qps" type="text" class="span6" onkeyup="onlynum(this)" onafterpaste="onlynum(this)"/>
+     </div>
+   </div>
+   <div class="control-group">
+     <label class="control-label">时间间隔(min) :</label>
+     <div class="controls">
+       <input name="time_interval" type="text" class="span6" onkeyup="onlynum(this)" onafterpaste="onlynum(this)"/>
+     </div>
+   </div>
+   <div class="control-group">
+     <label class="control-label">时间(min) :</label>
+     <div class="controls">
+       <input name="time" type="text" class="span6" onkeyup="onlynum(this)" onafterpaste="onlynum(this)"/>
+     </div>
+   </div>
 </div>
 
 
 <div id="press_model_zhengdang" style="display:none">
-	<table name="press_model_table">
-		<tr>
-		<td id="conf_args_name">最低qps：</td>
-		<td>
-		<input type="text" size="8" name="low_qps" maxlength="5" onkeyup="onlynum(this)" onafterpaste="onlynum(this)"></input>
-		</td>
-		</tr>
-		<tr>
-		<td id="conf_args_name">最高qps：</td>
-		<td>
-		<input type="text" size="8" name="high_qps" maxlength="5" onkeyup="onlynum(this)" onafterpaste="onlynum(this)"></input>
-		</td>
-		</tr>
-		<tr>
-		<td id="conf_args_name">时间(min)：</td>
-		<td>
-		<input type="text" size="8" name="time" maxlength="5" onkeyup="onlynum(this)" onafterpaste="onlynum(this)"></input>
-		</td>
-		</tr>
-	</table>
+   <div class="control-group">
+     <label class="control-label">最低qps :</label>
+     <div class="controls">
+       <input name="low_qps" type="text" class="span6" onkeyup="onlynum(this)" onafterpaste="onlynum(this)"/>
+     </div>
+   </div>
+   <div class="control-group">
+     <label class="control-label">最高qps :</label>
+     <div class="controls">
+       <input name="high_qps" type="text" class="span6" onkeyup="onlynum(this)" onafterpaste="onlynum(this)"/>
+     </div>
+   </div>
+   <div class="control-group">
+     <label class="control-label">时间(min) :</label>
+     <div class="controls">
+       <input name="time" type="text" class="span6" onkeyup="onlynum(this)" onafterpaste="onlynum(this)"/>
+     </div>
+   </div>
 </div>
 
-
-<form method="post" action="bushu.php">
-<table width = 100% cellpading=2 cellspacing=2 border=0>
-<tr>
-<td>
-	<table width=600px  cellpadding=2 cellspacing=0 border=1 align="left">  
-		<tr>
-		<td valign="top" align=left width="120px">测试类型</td>
-		<td algin="left">
-			<table>  
-			<tr>
-			<td id="conf_args_name">类型：</td>
-			<td>
-				<select name="test_type" id="test_type" size="1">
-				<option value="http" selected=true>http</option>
-				</select>
-			</td>
-			</tr>
-			</table>
-		</td>
-		</tr>
-
-		<tr>
-		<td valign="top" align=left>测试工具</td>
-		<td>
-			<table>  
-			<tr>
-			<td  id="conf_args_name">工具：</td>
-			<td>
-				<select name="test_tool" id="test_tool" size="1">
-				<option value="curlpress" selected=true>curlpress</option>
-				</select>
-			</td>
-			</tr>
-			<tr>
-			<td  id="conf_args_name">运行服务器：</td>
-			<td>
-				<select id="run_server" name="run_server" size="1">
-				<option value="cp01-testing-bdcm05.cp01.baidu.com" selected=true>bdcm05</option>
-				<option value="cp01-testing-bdcm06.cp01.baidu.com">bdcm06</option>
-				<option value="cp01-testing-bdcm07.cp01.baidu.com">bdcm07</option>
-				<option value="cp01-testing-bdcm08.cp01.baidu.com">bdcm08</option>
-				</select>
-			</td>
-			</tr>
-			</table>
-	
-			<hr id="fengefu" >
-
-			<div id="tool_curlpress">
-				<table id='tb_curlpress'>
-					<tr>
-					<td id="conf_args_name">请求方式：</td>
-					<td>
-					<input type="radio" name="request_method" value="GET" checked onclick='showPostData(false)'>GET</input>
-					<input type="radio" name="request_method" value="POST" onclick='showPostData(true)'>POST</input>
-					</td>
-					</tr>
-					<tr>
-					<td id="conf_args_name">url：</td>
-					<td>
-					<input id="request_url" name="request_url" type="text" value=""  size="40"/>												
-					</td>
-					</tr>
-					<tr>
-					<td id="conf_args_name">post data：</td>
-					<td><input type="text" name="request_data" size="40"/></td>
-					</tr>
-					<tr>
-					<td  id="conf_args_name">cookie：</td>
-					<td><input type="text" name="request_cookie" size="40"/></td>
-					</tr>
-				</table>
-			</div>
-
-		</td>
-		</tr>
-	
-		<tr>
-		<td valign="top" align=left>被测服务</td>
-		<td>
-			<table>  
-			<tr>
-			<td  id="conf_args_name">主机名host：</td>
-			<td><input id="server_name" name="server_name" type="text" value=""  size="40"/></td>
-			</tr>
-			</table>
-			<font size=2>*ocean资源查看需要主机名</font><br/>
-		</td>
-		</tr>
-	
-		 <tr>
-		 <td valign="top" align=left>压力模型</td>
-		 <td>
-			<table>  
-			<tr>
-			<td id="conf_args_name">模型：</td>
-			<td>
-				<select name="press_model" id="press_model" size="1" onchange="change_press_model(this)">
-				<option value="hengding" selected=true>恒定</option>
-				<option value="jieti" >阶梯</option>
-				<option value="zhendang" >震荡</option>
-				<option value="langyong" >浪涌</option>
-				</select>
-			</td>
-			</tr>
-			</table>
-			<hr id="fengefu"/>
-			<div id = "press_model_args"></div>
-		</td>
-		</tr>
-	</table>
-</td>
-</tr>
-<tr>
-<td>
-	&nbsp;&nbsp;<input type="submit" size='4' value="部署" onclick="return checkArgs()"></input>
-</td>
-</tr>
-</table>
-</form>
-</body>
-</html>
-
+<script type="text/javascript" src="./conf.js"></script>
 <script type="text/Javascript">
-	window.onload=load;
+    window.onload=load;
 </script>
-
+<?php
+    require_once('/home/work/renm/apache/apache2/htdocs/clientbest/web/foot.php');
+?>

@@ -7,7 +7,7 @@
 <link href="./../css/style.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="./op_ocean.js"></script>
 </head>
-<body bgcolor="#FAFCFF">
+<body>
 
 <?php
 	echo "<br/><br/>";

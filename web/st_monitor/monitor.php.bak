@@ -1,21 +1,19 @@
 <?php
 	require_once('/home/work/renm/apache/apache2/htdocs/clientbest/web/common.php');
-	require_once('/home/work/renm/apache/apache2/htdocs/clientbest/web/head.php');
-	require_once('/home/work/renm/apache/apache2/htdocs/clientbest/web/st_monitor/side_menu.php');
 ?>
-<!--main-container-part-->
-<div id="content">
-<!--breadcrumbs-->
-  <div id="content-header">
-    <div id="breadcrumb"> 
-	<a href="../index.php" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a>
-	<a href="" class="current">测试监控</a>
-	</div>
-  </div>  
-  <!--End-breadcrumbs-->
 
-<div class="container-fluid">
-<br/>
+<html><head>
+<title>测试监控</title>
+<meta http-equiv=Content-Type content="text/html; charset=utf-8">
+<link href="./../css/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="./async_log.js"></script>
+</head>
+<body bgcolor="#FAFCFF">
+<div>
+<h3 align="left">测试监控</h3>
+<hr/>
+</div>
+
 <?php 
 	$model  =NULL;
 	if(isset($_GET['id']) && $_GET['id'] != NULL){ 
@@ -29,23 +27,17 @@
 		else{
 			
 			echo "<p align = center style='font-family:Arial;font-size:20px;padding-top:15px; font-weight:bolder;' >您没有开始测试或者测试已经结束，不需要监控！！<p>";
-			echo "</div></div>";
-			require_once('/home/work/renm/apache/apache2/htdocs/clientbest/web/foot.php');
 			return;
 		}
 	}else{
 		if(isset($id)){
 			echo "id参数不正确！！！";
-			echo "</div></div>";
-			require_once('/home/work/renm/apache/apache2/htdocs/clientbest/web/foot.php');
 			return;
 		}	
 		$model = running_model();
 	}
 	if(!$model){
 		echo "<p align = center style='font-family:Arial;font-size:20px;padding-top:15px; font-weight:bolder;' >您没有开始测试或者测试已经结束，不需要监控！！<p>";
-		echo "</div></div>";
-		require_once('/home/work/renm/apache/apache2/htdocs/clientbest/web/foot.php');
 		return;
 	}
 	$model->show();
@@ -71,11 +63,7 @@
 	
 	$model->monitor();
 ?>
-<!--end container-fluid-->
-</div>
-<!--end content -->
-</div>
-<script type="text/javascript" src="./async_log.js"></script>
-<?php
- require_once('/home/work/renm/apache/apache2/htdocs/clientbest/web/foot.php');
-?>
+</body>
+
+</html>
+

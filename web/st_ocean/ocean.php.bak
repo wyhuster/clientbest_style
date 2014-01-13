@@ -1,21 +1,17 @@
 <?php
 	 require_once('/home/work/renm/apache/apache2/htdocs/clientbest/web/config.php');
-	 require_once('/home/work/renm/apache/apache2/htdocs/clientbest/web/head.php');
-	 require_once('/home/work/renm/apache/apache2/htdocs/clientbest/web/st_ocean/side_menu.php');
 ?>
-<!--main-container-part-->
-<div id="content">
-<!--breadcrumbs-->
-  <div id="content-header">
-    <div id="breadcrumb">
-    <a href="../index.php" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a>
-    <a href="" class="current">ocean监控</a>
-    </div>
-  </div>
-  <!--End-breadcrumbs-->
-
-<div class="container-fluid">
-<br/>
+<html><head>
+<title>Ocean监控</title>
+<meta http-equiv=Content-Type content="text/html; charset=utf-8">
+<link href="./../css/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="./ocean.js"></script>
+</head>
+<body bgcolor="#FAFCFF">
+<div>
+<h3 align="left">Ocean监控</h3> 
+<hr/>
+</div>
 <?php
 	$id = $_GET["id"];
 	if(isset($id)){
@@ -24,15 +20,11 @@
 		if(!$result)
         {
             echo $sql."query mysql failed!";
-			echo "</div></div>";
-			require_once('/home/work/renm/apache/apache2/htdocs/clientbest/web/foot.php');
             return;
     	}
 		$row = mysql_fetch_array($result);
 		if(count($row) == 0){
             echo "no data in database!";
-			echo "</div></div>";
-			require_once('/home/work/renm/apache/apache2/htdocs/clientbest/web/foot.php');
 			return;
         }
 
@@ -129,11 +121,6 @@
 </div>
 -->
 <div><br/><hr/><font size="1px" color="blue">*点击访问<a href='http://ocean.baidu.com/' target='_blank'>Ocean开发测试云</a>查询更多资源监控.</font></div>
+</body>
+</html>
 
-</div>
-</div>
-
-<script type="text/javascript" src="./ocean.js"></script>
-<?php
-	require_once('/home/work/renm/apache/apache2/htdocs/clientbest/web/foot.php');
-?>
