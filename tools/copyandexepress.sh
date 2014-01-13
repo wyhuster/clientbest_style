@@ -27,8 +27,8 @@ ssh "work@"${SERVER} mkdir $LOGS_PATH
 ssh "work@"${SERVER} rm -rf $LOG_PATH
 ssh "work@"${SERVER} mkdir $LOG_PATH
 
-scp $CURRENT_DIR/press_mode/press.py "work@"${SERVER}:${TOOLS_PATH}"/press.py"
-scp $CURRENT_DIR/curlpress/curlpress "work@"${SERVER}:${TOOLS_PATH}"/curlpress"
+scp $CURRENT_DIR/press.py "work@"${SERVER}:${TOOLS_PATH}"/press.py"
+scp $CURRENT_DIR/curlpress "work@"${SERVER}:${TOOLS_PATH}"/curlpress"
 #scp $CURRENT_DIR/get_user.sh "work@"${SERVER}:${TOOLS_PATH}"/get_user.sh"
 
 scp -r ${SOURCE_FILE_PATH} "work@"${SERVER}:${DATA_PATH}"/"
