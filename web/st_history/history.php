@@ -16,7 +16,7 @@
 </head>
 
 <body bgcolor="#FAFCFF" >
-<div class="" style="width:150%;overflow-x:scroll">
+<div class="" style="width:150%;">
 <table class="table table-hover">
 
 <thead>
