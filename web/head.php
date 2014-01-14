@@ -22,7 +22,7 @@
 
 <!--Header-part-->
 <div id="header">
-  <h1><a href="/wy_clientbest/dashboard.html">性能测试平台</a></h1>
+  <h1><a href="/clientbest/web/index.php">性能测试平台</a></h1>
 </div>
 <!--close-Header-part--> 
 

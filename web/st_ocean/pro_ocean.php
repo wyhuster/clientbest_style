@@ -3,11 +3,25 @@
 <title>Ocean监控</title>
 <meta http-equiv=Content-Type content="text/html; charset=utf-8">
 <meta http-equiv=html content=no-cache>
-<link href="./../css/bootstrap.css" rel="stylesheet" type="text/css" />
-<link href="./../css/style.css" rel="stylesheet" type="text/css" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" href="/clientbest/web/css/bootstrap.min.css" />
+<link rel="stylesheet" href="/clientbest/web/css/bootstrap-responsive.min.css" />
+<link rel="stylesheet" href="/clientbest/web/css/bootstrap-wysihtml5.css" />
+<link rel="stylesheet" href="/clientbest/web/css/colorpicker.css" />
+<link rel="stylesheet" href="/clientbest/web/css/datepicker.css" />
+<link rel="stylesheet" href="/clientbest/web/css/fullcalendar.css" />
+<link rel="stylesheet" href="/clientbest/web/css/jquery.gritter.css" />
+<link rel="stylesheet" href="/clientbest/web/css/matrix-login.css" />
+<link rel="stylesheet" href="/clientbest/web/css/matrix-media.css" />
+<link rel="stylesheet" href="/clientbest/web/css/matrix-style.css" />
+<link rel="stylesheet" href="/clientbest/web/css/select2.css" />
+<link rel="stylesheet" href="/clientbest/web/css/uniform.css" />
+<link rel="stylesheet" href="/clientbest/web/font-awesome/css/font-awesome.css" />
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
 <script type="text/javascript" src="./op_ocean.js"></script>
 </head>
-<body>
+<body style="background: none repeat scroll 0 0 #eeeeee;">
+<div id="content_test">
 
 <?php
 	echo "<br/><br/>";
@@ -60,6 +74,7 @@
 ?>
 </tbody>
 </table>
-<?php echo "<a href='op_pro_ocean.php?host=".$host."'>添加</a>";?>
+<?php echo "<a class='btn btn-success' href='op_pro_ocean.php?host=".$host."'>添加</a>";?>
+</div>
 </body>
 </html>

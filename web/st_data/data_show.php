@@ -10,7 +10,7 @@
 <div id="content-header">
   <div id="breadcrumb"> 
       <a href="../index.php" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> 
-      <a href="" class="current">测试回放</a>  
+      <a href="" class="current">数据回放</a>  
   </div>  
 </div>
 <div class="container-fluid">
@@ -20,12 +20,12 @@
 <thead>
 <tr>
 <th>编号</th>
-<th>协议类型</th>
-<th>工具名称</th>
+<!--<th>协议类型</th>
+<th>工具名称</th>-->
 <th>压力运行服务器</th>
+<th>压力模型</th>
 <th>压力参数</th>
 <th>配置文件</th>
-<th>压力模型</th>
 <th>压力测试回放</th>
 </tr>
 </thead>
@@ -50,6 +50,9 @@
 		foreach($tool_args["tool_args"] as $key => $value)
 	    {
 			if(($key ==  "url") or ($key == "type")){
+				if(strlen($value)>25){
+					$value=substr($value,0,25)."...";
+				}
 	    		$row_content = $row_content.$key."=".htmlspecialchars($value)."<br>";
 			}
 	   	}
@@ -119,12 +122,12 @@
 	{
 		$model_row = new ModelRow();
 		$model_row->add_column($model->getId());
-		$model_row->add_column($model->getProtocolType());
-		$model_row->add_column($model->getToolName());
+		//$model_row->add_column($model->getProtocolType());
+		//$model_row->add_column($model->getToolName());
 		$model_row->add_column(getServerName($model->getPressServer()));
+		$model_row->add_column($model->getPressModel());
 		$model_row->add_column($model->getPressArgs());
 		$model_row->add_tool_args_row($model->getToolArgs());
-		$model_row->add_column($model->getPressModel());
 		$model_row->add_hyper_column($model->getId(),$model);
  		echo $model_row->render();
 	}

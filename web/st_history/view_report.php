@@ -1,13 +1,35 @@
 <?php
 	error_reporting(E_ALL);
 	date_default_timezone_set("Asia/Chongqing");
-	require_once('/home/work/renm/apache/apache2/htdocs/clientbest/web/config.php');
-	
 	$base_path = "/home/work/renm/apache/apache2/htdocs/clientbest";
+	require_once($base_path.'/web/config.php');
+	require_once($base_path.'/web/head.php');
+	require_once($base_path.'/web/st_history/side_menu.php');
+?>
+<!--main-container-part-->
+<div id="content">
+<!--breadcrumbs-->
+  <div id="content-header">
+    <div id="breadcrumb"> 
+    <a href="../index.php" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a>
+    <a href="history.php" class="tip_bottom">使用记录</a>
+    <a href="" class="current">测试报告</a>
+    </div>  
+  </div>  
+  <!--End-breadcrumbs-->
+<div class="container-fluid">
+
+<?php
+	function foot(){
+		echo "</div></div>";
+		require_once($base_path.'/web/foot.php');
+	}
+	
 	
 	$id = $_GET["id"];
 	if(!isset($id)){
 		echo "no history id!!";
+		foot();
 		exit(1);
 	}
 
@@ -25,11 +47,13 @@
 	$result = mysql_query($sql,$db);
 	if(!$result){
 		echo $sql."\nquery mysql failed!";
+		foot();
 		exit(1);
 	}
 	$row = mysql_fetch_array($result);
     if(count($row) == 0){
         echo "no data in database!";
+		foot();
         exit(1);
     }
 	if($row['stop_time'] == "0000-00-00 00:00:00"){
@@ -47,18 +71,35 @@
 	}
 	$module_server = trim($module_server);
 	if(!isset($_GET["module_server"]) and ($module_server == '')){
-		echo "<html><head><title>请输入被测主机名</title></head><body bgcolor='#FAFCFF'>";
-		echo "请输入被测服务运行的主机名host:<br/>";
-		echo "<font size=2>(用于获取Ocean数据)</font><br/>";
-		echo "<form action='' method='get'>";
+		//echo "<html><head><title>请输入被测主机名</title></head><body bgcolor='#FAFCFF'>";
+		echo "
+  		<div class='row-fluid'>
+    		<div class='span10'>
+      			<div class='widget-box'>
+        			<div class='widget-title'> <span class='icon'> <i class='icon-align-justify'></i> </span> 
+          				<h5>部署参数</h5>
+        			</div>  
+        			<div class='widget-content nopadding'>
+ 						<form action='' method='get' class='form-horizontal'>
+							<div class='control-group'>
+              					<label class='control-label'>被测服务主机名 :</label>
+              					<div class='controls'>
+                					<input type='text' name='module_server' class='span6' />
+                					<span class='help-block'>*报告中用于获取ocean数据</span> 
+								</div>
+            				</div>";
 		echo "<input type='hidden' name='id' value='".$id."'/>";
 		if(isset($_GET["generate"])){
 			echo "<input type='hidden' name='generate' value='generate'/>";
 		}
-		echo "<input type='text' name='module_server' size='40'><br/>";
-		echo "<input type='submit' value='提交' />";
-		echo "</form>";
-		echo "</body></html>";
+		echo "
+		    <div class='form-actions'>
+              <button type='submit' class='btn btn-success'>提交</button>
+            </div>
+		";
+		echo "</form></div></div></div></div>";
+		//echo "</body></html>";
+		foot();
 		exit(1);
 	}
 	$pid = $row['pid'];
@@ -75,14 +116,32 @@
 	$qps_end = intval($jieti_para['qps_end']);
 	$qps_interval = intval($jieti_para['qps_interval']);
 	$time_interval = intval($jieti_para['time_interval']);
+
+
+	$head_content = file_get_contents($base_path."/web/head.php");
+	$menu_content = file_get_contents($base_path."/web/st_history/side_menu.php");
+	$foot_content = file_get_contents($base_path."/web/foot.php");	
 	
 	ob_start();
 	
-	echo "<html><head><title>Report</title></head><body bgcolor='#FAFCFF'>";
+	//echo "<html><head><title>Report</title></head><body bgcolor='#FAFCFF'>";
 	
-	echo "<h2 style=\"text-align:center\">测试报告(id:".$id.")</h2>";
+	echo $head_content;
+	echo $menu_content;
+	echo "
+		<div id='content'>
+			<div id='content-header'>
+  				<div id='breadcrumb'> 
+     				 <a href='/clientbest/web/index.php' title='Go to Home' class='tip-bottom'><i class='icon-home'></i> Home</a> 
+      				 <a href='/clientbest/web/st_history/history.php' class='tip_bottom'>使用记录</a>  
+      				 <a href='' class='current'>测试报告</a>  
+  				</div>  
+			</div>
+			<div class='container-fluid'>
+	";
+	//echo "<h2 style=\"text-align:center\">测试报告(id:".$id.")</h2>";
 	echo "<h4 style=\"text-align:right\">报告时间:".date('Y-m-d H:i:s')."</h4>";
-	echo "<h3>(1)测试部署参数:</h3>";
+	echo "<h4>(1)测试部署参数:</h4>";
 	echo "被测服务所在主机: ".$module_server."</br>";
 	echo "压力运行服务器: ".$press_server."</br>";
 	echo "Pid: ".$pid."<br/>";
@@ -107,7 +166,7 @@
 
 	
 	echo "<br/>";
-	echo "<h3>(2)测试结论:</h3>";
+	echo "<h4>(2)测试结论:</h4>";
 	
 	/**
 	array qps->rps
@@ -199,8 +258,10 @@
 	echo "<form action='/clientbest/web/st_history/view_report.php' method='get'>";
 	echo "<input type='hidden' name ='id' value='".$id."'/>";
 	echo "<input type='hidden' name ='generate' value='generate'/>";
-	echo "<input type='submit' value='重新生成报告'/></form>";
-	echo "</body></html>";
+	echo "<input type='submit' class='btn btn-success' value='重新生成报告'/></form>";
+	//echo "</body></html>";
+	echo "</div></div>";
+	echo $foot_content;
 
 	$temp_html_content = ob_get_contents();
 	ob_end_clean();
@@ -219,7 +280,7 @@
 		exit(1);       
 	}
 	
-    header("Location: /clientbest/reports/".$id."_report.html"); 										 
+    header("Location: /clientbest/reports/".$id."_report.html?rand=".time()); 										 
 		
 
 function get_rps_and_rt_from_log($qps){

@@ -1,16 +1,25 @@
 ﻿<?php
 	error_reporting(E_ALL);
 	require_once("/home/work/renm/apache/apache2/htdocs/clientbest/web/head.php");
-	require_once("/home/work/renm/apache/apache2/htdocs/clientbest/web/st_data/side_menu.php");
+	require_once("/home/work/renm/apache/apache2/htdocs/clientbest/web/st_history/side_menu.php");
 ?>
 
 <div id="content">
 <div id="content-header">
   <div id="breadcrumb"> 
       <a href="../index.php" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> 
-      <a href="data_show.php" class="tip_bottom">数据回放</a> 
-	  <a href="" class="current">配置文件</a> 
-  </div>  
+      <a href="history.php" class="tip_bottom">使用记录</a>
+	  <a href="" class="current">
+<?php
+	if(isset($_GET['log'])){
+		echo "日志文件"; 
+	}
+	else{
+		echo "配置文件"; 
+	}
+?>
+</a>
+</div>
 </div>
 <div class="container-fluid">
 

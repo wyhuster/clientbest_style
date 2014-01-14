@@ -19,15 +19,14 @@
 <div class="container-fluid">
 
 <table class="table table-hover">
-
 <thead>
 <tr>
 <th>编号</th>
-<th>压力模型</th>
+<!--<th>压力模型</th>-->
 <!--<th>协议类型</th>
 <th>工具名称</th>-->
 <th>压力运行服务器</th>
-<th>压力参数</th>
+<!--<th>压力参数</th>-->
 <th>请求参数</th>
 <th>使用时间</th>
 <th>Log</th>
@@ -66,6 +65,9 @@
 		$row_content = "";
         foreach($tool_args["tool_args"] as $key => $value){
 			if($key != "data" and $key != "cookie"){
+				if(strlen($value)>25){
+					$value=substr($value,0,25)."...";
+				}
 				$row_content = $row_content.$key."=".htmlspecialchars($value)."<br/>";
 			}
 	    }
@@ -91,7 +93,7 @@
 	   for($index=0;$index<$file_num;$index++)
 	   {
 		   if($list[$index] != "python.pid"){
-				$row_content = $row_content."<a href='/clientbest/web/st_data/data_conf_content.php?filepath=".$file_path.$list[$index]."'>".$list[$index]."</a>&nbsp;&nbsp;&nbsp;";
+				$row_content = $row_content."<a href='/clientbest/web/st_history/history_conf_content.php?filepath=".$file_path.$list[$index]."'>".$list[$index]."</a>&nbsp;&nbsp;&nbsp;";
 			}
 		}
 	   
@@ -120,7 +122,7 @@
 			$file_num=sizeof($list);
 			for($index=0;$index<$file_num;$index++)
 			{
-				$row_content = $row_content."<a href='/clientbest/web/st_data/data_conf_content.php?filepath=".$file_path.$list[$index]."'>".$list[$index]."</a><br/>";
+				$row_content = $row_content."<a href='/clientbest/web/st_history/history_conf_content.php?log=1&filepath=".$file_path.$list[$index]."'>".$list[$index]."</a><br/>";
 			}
 		}
 		array_push($this->columns, $row_content);
@@ -164,11 +166,11 @@
 	{
 	  $model_row = new ModelRow();
 	  $model_row->add_column($model->getId());
-	  $model_row->add_column($model->getPressModel());
+	  //$model_row->add_column($model->getPressModel());
 	  //$model_row->add_column($model->getProtocolType());
 	  //$model_row->add_column($model->getToolName());
 	  $model_row->addServerRow($model);
-	  $model_row->add_column($model->getPressArgs());
+	  //$model_row->add_column($model->getPressArgs());
 	  $model_row->add_tool_args_row($model->getToolArgs());
 	  //$model_row->add_column($model->getUpdatetime());
 	  $model_row->add_time_row($model->getUpdatetime());

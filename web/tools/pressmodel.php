@@ -396,8 +396,8 @@ abstract class AbstractPressModel implements PressModel{
 			$content .=  $key." = ".$value."<br>";
 		}
 		echo $content;
-		echo "<br><form action=/clientbest/web/st_conf/stop.php method=post>";
-		echo "<input type=hidden name=id value=$this->id>";
+		echo "<br><form action='/clientbest/web/st_conf/conf.php' method='post' target='_self'>";
+		echo "<input type=hidden name=stop_id value=$this->id>";
 		echo "<input type=submit value='停止' onclick=\"return confirm('你确定要停止该测试吗？停止后可在数据回放中选择回放')\"/>";
 		echo "</form>";
 	}

@@ -66,13 +66,19 @@
 
 
 function showProOcean(){
-	var host = getTextboxValue("hostname");
-	if(host==null||host==""){
-		alert("请填写host!")
-		return;
-	}
 	var frame = document.getElementById("pro_frame");
-	frame.src = "pro_ocean.php?host="+host;
-	frame.style.display = "block";
+	if(frame.style.display != "none"){
+		frame.src = "";
+		frame.style.display = "none";
+	}
+	else{
+		var host = getTextboxValue("hostname");
+		if(host==null||host==""){
+			alert("请填写host!")
+			return;
+		}
+		frame.src = "pro_ocean.php?host="+host;
+		frame.style.display = "block";
+	}
 }
 

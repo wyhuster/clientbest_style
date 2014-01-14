@@ -3,6 +3,7 @@
 	require_once('/home/work/renm/apache/apache2/htdocs/clientbest/web/head.php');
 	require_once('/home/work/renm/apache/apache2/htdocs/clientbest/web/st_monitor/side_menu.php');
 ?>
+<script type="text/javascript" src="/clientbest/web/st_monitor/async_log.js"></script>
 <!--main-container-part-->
 <div id="content">
 <!--breadcrumbs-->
@@ -16,7 +17,7 @@
 
 <div class="container-fluid">
 <br/>
-<?php 
+<?php
 	$model  =NULL;
 	if(isset($_GET['id']) && $_GET['id'] != NULL){ 
 		$id = $_GET['id']; 
@@ -53,8 +54,8 @@
 	
 	//show curlpress log
 	if($model->getToolName()=="curlpress"){
-		echo "<hr>";
-		echo "curlpress log: <button id='btn_pause_log' type='button' onclick='setPause()'>暂停</button>";
+		echo "<hr/>";
+		echo "curlpress log: <button id='btn_pause_log' type='button' onclick='setPause()'>暂停</button><br/>";
 		echo "<textarea id='curlpress_log' style='width:100%;height:30%;' readonly='readonly'></textarea>";
 		echo '<script type="text/javascript">';
 		echo 'showCurlpressLog("'.$model->getPressServer().'")';
@@ -75,7 +76,6 @@
 </div>
 <!--end content -->
 </div>
-<script type="text/javascript" src="./async_log.js"></script>
 <?php
  require_once('/home/work/renm/apache/apache2/htdocs/clientbest/web/foot.php');
 ?>

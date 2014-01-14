@@ -1,21 +1,20 @@
 ﻿<?php
 	require_once('/home/work/renm/apache/apache2/htdocs/clientbest/web/common.php');
+	require_once('/home/work/renm/apache/apache2/htdocs/clientbest/web/head.php');
+	require_once('/home/work/renm/apache/apache2/htdocs/clientbest/web/st_conf/side_menu.php');
 ?>
-
-<html><head>
-<title>测试部署</title>
-<meta http-equiv=Content-Type content="text/html; charset=utf-8">
-<meta http-equiv=html content=no-cache>
-<link href="./../css/style.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="./../js/conf.js"></script>
-</head>
-
-<body bgcolor="#FAFCFF" >
-<div>
-<h3 align="left">测试部署</h3>
-<hr/>
-<p>
-</div>
+<!--main-container-part-->
+<div id="content">
+<!--breadcrumbs-->
+  <div id="content-header">
+    <div id="breadcrumb"> 
+    <a href="../index.php" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a>
+    <a href="conf.php" class="tip_bottom">测试部署</a>
+    <a href="" class="current">部署情况</a>
+    </div>  
+  </div>  
+  <!--End-breadcrumbs-->
+<div class="container-fluid">
 
 <?php
 	$model = running_model();
@@ -27,8 +26,8 @@
 			return;
 	 }
 
-	$type_name = $_POST['test_type'];
-	echo "测试类型: ".$type_name."<br>";
+	//$type_name = $_POST['test_type'];
+	//echo "测试类型: ".$type_name."<br>";
 
 	//echo "<hr>";
 	//$loader = ToolFactory::getTool("loader");
@@ -36,7 +35,7 @@
 	//$loader->generateConfig(0);
 	//$loader->show();
 
-	echo "<hr>";
+	//echo "<hr>";
 	$model = PressModelFactory::getModel($_POST['press_model']);
 
 	$model->parseArgs($_POST);
@@ -47,5 +46,9 @@
 	$press_id= $model->execute();
 	$_SESSION['press_id'] = $press_id; 
 ?>
-</body>
-</html>
+</div>
+</div>
+
+<?php
+	require_once('/home/work/renm/apache/apache2/htdocs/clientbest/web/foot.php');
+?>

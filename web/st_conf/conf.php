@@ -9,12 +9,25 @@
 <div id="content-header">
   <div id="breadcrumb"> 
       <a href="../index.php" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> 
-      <a href="#" class="current">测试部署</a> 
+      <a href="" class="current">测试部署</a> 
   </div>
 </div>
 <div class="container-fluid">
 
 <?php
+
+	if(isset($_POST['stop_id'])){
+		$id = $_POST['stop_id'];
+    	if($id != NULL and $id != ""){ 
+    		$model = AbstractPressModel::reload($id);
+    		if($model){
+    			$model->stop();
+				sleep(1);
+				echo "测试已停止!<br/>";
+    		}
+		}
+	}
+
     $model = running_model();
     if($model){
         echo "<p align = center style='font-family:Arial;font-size:20px;padding-top:15px; font-weight:bolder;' >您部署的测试正在运行中...<p>";

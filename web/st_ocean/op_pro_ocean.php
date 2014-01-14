@@ -1,10 +1,25 @@
 <html>
 <head>
 <meta http-equiv=Content-Type content="text/html; charset=utf-8">
-<link href="./../css/style.css" rel="stylesheet" type="text/css" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" href="/clientbest/web/css/bootstrap.min.css" />
+<link rel="stylesheet" href="/clientbest/web/css/bootstrap-responsive.min.css" />
+<link rel="stylesheet" href="/clientbest/web/css/bootstrap-wysihtml5.css" />
+<link rel="stylesheet" href="/clientbest/web/css/colorpicker.css" />
+<link rel="stylesheet" href="/clientbest/web/css/datepicker.css" />
+<link rel="stylesheet" href="/clientbest/web/css/fullcalendar.css" />
+<link rel="stylesheet" href="/clientbest/web/css/jquery.gritter.css" />
+<link rel="stylesheet" href="/clientbest/web/css/matrix-login.css" />
+<link rel="stylesheet" href="/clientbest/web/css/matrix-media.css" />
+<link rel="stylesheet" href="/clientbest/web/css/matrix-style.css" />
+<link rel="stylesheet" href="/clientbest/web/css/select2.css" />
+<link rel="stylesheet" href="/clientbest/web/css/uniform.css" />
+<link rel="stylesheet" href="/clientbest/web/font-awesome/css/font-awesome.css" />
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
 <script type="text/javascript" src="./op_ocean.js"></script>
 </head>
-<body>
+<body style="background: none repeat scroll 0 0 #eeeeee;">
+<div id="content_test">
 
 <?php
 	//$host = "cp01-testing-bdcm06.cp01.baidu.com";
@@ -37,18 +52,18 @@
 	echo "</table>";
 
 	echo "<div id='div_btn'>";
-	echo "<button onclick=\"backToList('".$host."')\">返回</button>&nbsp;&nbsp;&nbsp;";
+	echo "<button class='btn btn-success' onclick=\"backToList('".$host."')\">返回</button>&nbsp;&nbsp;&nbsp;";
 	if(!isset($app)){
 		//add
-		echo "<button onclick=\"update('add','".$host."')\">添加</button>";
+		echo "<button class='btn btn-primary' onclick=\"update('add','".$host."')\">添加</button>";
 	}else{
 		if($status==1){
-			echo "<button onclick=\"stop('".$host."')\">停止</button>&nbsp;&nbsp;&nbsp;";
+			echo "<button class='btn btn-primary' onclick=\"stop('".$host."')\">停止</button>&nbsp;&nbsp;&nbsp;";
 		}else{
-			echo "<button onclick=\"start('".$host."')\">开启</button>&nbsp;&nbsp;&nbsp;";
+			echo "<button class='btn btn-primary' onclick=\"start('".$host."')\">开启</button>&nbsp;&nbsp;&nbsp;";
 		}
-		echo "<button onclick=\"update('update','".$host."')\">修改</button>&nbsp;&nbsp;&nbsp;";
-		echo "<button onclick=\"delete_app('".$host."')\">删除</button>";
+		echo "<button class='btn btn-info' onclick=\"update('update','".$host."')\">修改</button>&nbsp;&nbsp;&nbsp;";
+		echo "<button class='btn btn-danger' onclick=\"delete_app('".$host."')\">删除</button>";
 	}
 	echo "</div>";
 	
@@ -56,5 +71,6 @@
 	echo "<img id='loading' src='./../img/loading.gif'>";
 	echo "</div>";
 ?>
+</div>
 </body>
 </html>

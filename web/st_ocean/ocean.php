@@ -43,16 +43,17 @@
 		$tool_args = $row["tool_args"];
 
 		$json_args = json_decode($tool_args,true);
+
 		echo "<font size='2'><strong>压力参数 id=".$id."</strong></font><br/>";
 		echo "<table>";
-		echo "<tr><td>url:</td><td>".$json_args["tool_args"]["url"]."</td></tr>";
-		echo "<tr><td>service host: </td><td>".$module_server."</td></tr>";
-		echo "<tr><td>press server: </td><td>".$press_server."</td></tr>";
-		echo "<tr><td>start time:</td><td>".$starttime."</td></tr>";
+		echo "<tr><td>url :</td><td>".$json_args["tool_args"]["url"]."</td></tr>";
+		echo "<tr><td>service host :&nbsp;&nbsp;</td><td>".$module_server."</td></tr>";
+		echo "<tr><td>press server : </td><td>".$press_server."</td></tr>";
+		echo "<tr><td>start time :</td><td>".$starttime."</td></tr>";
 		if($stoptime == "0000-00-00 00:00:00"){
 			echo "<tr><td><font color='red'>正在运行...</font></td></tr>";
 		}else{
-			echo "<tr><td>stop time:</td><td>".$stoptime."</td></tr>";
+			echo "<tr><td>stop time :</td><td>".$stoptime."</td></tr>";
 		}
 		echo "</table><hr/>";
 
@@ -63,64 +64,95 @@
 		//$start = implode('',$matches[0]);
 		
 		echo "
-		<table>
-		<tr>
-		<td>*主机名host：</td>
-		<td><input type='text' id='hostname' placeholder='cp01-testing-bdcm06.cp01.baidu.com' value='".$module_server."' size='51'></td>
-		<td><button onclick='showProOcean()'>进程监控</button></td>
-		</tr>
-		<tr>
-		<td>*查询时间：</td>
-		<td><input type='text' id='start_date' placeholder='yyyyMMddHHmmss' value='".$starttime."'>
-		--
-		";
-
-		
+		  <div class='row-fluid'>
+		      <div class='span10'>
+  		<div class='widget-box'>
+        	<div class='widget-title'> <span class='icon'> <i class='icon-align-justify'></i> </span> 
+          	<h5>资源监控</h5>
+        	</div>  
+        	<div class='widget-content nopadding'>
+			<div class='form-horizontal'>
+			<div class='control-group'>
+              <label class='control-label'>主机名host :</label>
+              <div class='controls'>
+                <input id='hostname' type='text' placeholder='cp01-testing-bdcm06.cp01.baidu.com' value='".$module_server."' class='span6'>
+              </div>
+            </div>	
+			<div class='control-group'>
+              <label class='control-label'>开始时间 :</label>
+              <div class='controls'>
+                <input id='start_date' type='text' placeholder='yyyyMMddHHmmss' class='span6' value='".$starttime."'>
+              </div>
+            </div>	
+			<div class='control-group'>
+              <label class='control-label'>结束时间 :</label>
+              <div class='controls'>";
+			
 		if($stoptime == "0000-00-00 00:00:00"){
 			$stoptime = date("Y-m-d H:i:s");
 		}
-		//preg_match_all('/\d/S',$stoptime, $matches);
-		//$stop = implode('',$matches[0]);
 		echo "
-		<input type='text' id='end_date' placeholder='yyyyMMddHHmmss' value='".$stoptime."'>
-		</td>
-		</tr>
-		</table>";
-		
+                <input id='end_date' type='text' placeholder='yyyyMMddHHmmss' class='span6' value='".$stoptime."'>
+              </div>
+            </div>	
+		";
+	
 	}else{
 		echo "
-		<table>
-		<tr>
-		<td>*主机名host：</td>
-		<td><input type='text' id='hostname' placeholder='cp01-testing-bdcm06.cp01.baidu.com' size='51'></td>
-		<td><button onclick='showProOcean()'>进程监控</button></td>
-		</tr>
-		<tr>
-		<td>*查询时间：</td>
-		<td><input type='text' id='start_date' placeholder='yyyyMMddHHmmss'>
-		--
-		<input type='text' id='end_date' placeholder='yyyyMMddHHmmss'>
-		</td>
-		</tr>
-		</table>";
+		  <div class='row-fluid'>
+		      <div class='span10'>
+		<div class='widget-box'>
+        	<div class='widget-title'> <span class='icon'> <i class='icon-align-justify'></i> </span> 
+          	<h5>资源监控</h5>
+        	</div>  
+        	<div class='widget-content nopadding'>
+			<div class='form-horizontal'>
+			<div class='control-group'>
+              <label class='control-label'>主机名host :</label>
+              <div class='controls'>
+                <input id='hostname' type='text' placeholder='cp01-testing-bdcm06.cp01.baidu.com' class='span6'>
+              </div>
+            </div>	
+			<div class='control-group'>
+              <label class='control-label'>开始时间 :</label>
+              <div class='controls'>
+                <input id='start_date' type='text' placeholder='yyyyMMddHHmmss' class='span6'>
+              </div>
+            </div>	
+			<div class='control-group'>
+              <label class='control-label'>结束时间 :</label>
+              <div class='controls'>
+                <input id='end_date' type='text' placeholder='yyyyMMddHHmmss' class='span6'>
+              </div>
+            </div>	
+		";
 	}
 ?>
-<br/>
-<font size='2'><strong>资源监控</strong></font><br/>
-<table>
-<tr>
-    <td>*监控项选择：</td>
-</tr>
-<tr>
-	<td><input type="checkbox" checked="checked" id="cpu_idle" value="CPU_IDLE">CPU闲置时间
-	<input type="checkbox" id="mem_urate" value="MEM_URATE">物理内存使用率
-    <input type="checkbox" id="load_avg1" value="SERVER_LOADAVG1">1分钟平均负载
-    <input type="checkbox" id="io_avg_wait" value="IO_AVGWAIT">平均I/O等待时间</td>
-</tr> 
-<tr>
-	<td><button onclick="checkArgs()"><font size="3px">查询并显示资源图像</font></button></td>
-</tr>		 
-</table>
+		
+	<div class='control-group'>
+		  <label class='control-label'>监控项 :</label>
+		  <div class='controls'>
+			  <input id="cpu_idle" value="CPU_IDLE" type='checkbox' checked='checked' name='radios'>
+			  CPU闲置时间</input>&nbsp;&nbsp;&nbsp;
+			  <input id="mem_urate" value="MEM_URATE" type='checkbox' name='radios'>
+			  物理内存使用率</input>&nbsp;&nbsp;&nbsp;
+			  <input id="load_avg1" value="SERVER_LOADAVG1" type='checkbox' name='radios'>
+			  1分钟平均负载</input>&nbsp;&nbsp;&nbsp;
+			  <input id="io_avg_wait" value="IO_AVGWAIT" type='checkbox' name='radios' >
+			  平均I/O等待时间</input>
+		  </div>
+	</div>
+ 	
+	<div class="form-actions">
+              <button onclick='checkArgs()' class="btn btn-success">查询并显示资源图像</button>
+              <button onclick='showProOcean()' class="btn btn-primary">进程监控</button>
+    </div>
+	</div>
+</div>
+</div>
+</div>
+</div>
+
 
 <iframe id="pro_frame" name="pro_frame" width=100% height=100% frameborder=0 onload="this.height=pro_frame.document.body.scrollHeight" style="display:none;"></iframe>
 <!--
@@ -128,7 +160,7 @@
 <font size='2'><strong>进程监控  <label id='host_label'></label></strong></font><br/>
 </div>
 -->
-<div><br/><hr/><font size="1px" color="blue">*点击访问<a href='http://ocean.baidu.com/' target='_blank'>Ocean开发测试云</a>查询更多资源监控.</font></div>
+<div><br/><hr/><font size="1px">*点击访问<a href='http://ocean.baidu.com/' target='_blank'>Ocean开发测试云</a>查询更多资源监控.</font></div>
 
 </div>
 </div>

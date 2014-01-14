@@ -11,7 +11,7 @@ body {
 	overflow-x: hidden;
 	margin-top: -10px; font-family: 'Open Sans', sans-serif; font-size:12px; color:#666;
 }
-a{color:#666;}
+a{color:blue;}
 a:hover, a:focus {
 	text-decoration: none; color:#28b779;
 }
@@ -47,14 +47,14 @@ hr{ border-top-color:#dadada;}
 
 /* Header */
 #header {
-	height: 100px;
+	height: 95px;
 	position: relative;
 	width: 100%;
 	z-index: -9;
 }
 #header h1 {
-	background: url("/clientbest/web/img/logo.png") no-repeat scroll 0 0 transparent;
-	height: 100px;
+	background: url("../img/logo.png") no-repeat scroll 0 0 transparent;
+	height: 31px;
 	left: 20px;
 	line-height: 600px;
 	overflow: hidden;
@@ -94,11 +94,10 @@ hr{ border-top-color:#dadada;}
 /* Top user navigation */
 #user-nav {
 	position: absolute;
-	left: 220px;
+	left: 40%;
 	top:0px;
 	z-index: 20;
 	margin: 0;
-	text-align:center;
 }
 #user-nav > ul {
 	margin: 0;
@@ -203,6 +202,16 @@ hr{ border-top-color:#dadada;}
 	min-height:100%;
 	width: auto;
 }
+
+#content_test {
+    margin-left: 0;
+    margin-right: 0;
+    padding-bottom: 0;
+    position: relative;
+	height:100%;
+    width: auto;
+}
+
 #content-header {
 	position: abslute;
 	width: 100%;
@@ -1034,10 +1043,10 @@ div.dataTables_wrapper .ui-widget-header {
 }
 .table th {
 	height: auto;
-	font-size: 10px;
+	font-size: 15px;
 	padding: 5px 10px 2px;
 	border-bottom: 0;
-	text-align: center;
+	text-align: left;
 	color: #666666;
 }
 .table.with-check tr th:first-child, .table.with-check tr td:first-child {
