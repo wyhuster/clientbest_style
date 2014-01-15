@@ -77,7 +77,7 @@
     		<div class='span10'>
       			<div class='widget-box'>
         			<div class='widget-title'> <span class='icon'> <i class='icon-align-justify'></i> </span> 
-          				<h5>部署参数</h5>
+          				<h5>ocean主机</h5>
         			</div>  
         			<div class='widget-content nopadding'>
  						<form action='' method='get' class='form-horizontal'>
@@ -141,7 +141,7 @@
 	";
 	//echo "<h2 style=\"text-align:center\">测试报告(id:".$id.")</h2>";
 	echo "<h4 style=\"text-align:right\">报告时间:".date('Y-m-d H:i:s')."</h4>";
-	echo "<h4>(1)测试部署参数:</h4>";
+	echo "<h4>(1)测试参数:</h4>";
 	echo "被测服务所在主机: ".$module_server."</br>";
 	echo "压力运行服务器: ".$press_server."</br>";
 	echo "Pid: ".$pid."<br/>";

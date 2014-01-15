@@ -29,6 +29,6 @@
 
 <!--top-Header-menu-->
 <div id="user-nav" class="navbar navbar-inverse">
-<center><h3><font text-align='center' color='yellow'>客户端后端性能测试平台</font></h3></center>
+<h4><font color='white'>客户端后端性能测试平台</font></h4>
 </div>
 <!--close-top-Header-menu-->

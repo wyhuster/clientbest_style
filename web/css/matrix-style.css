@@ -47,7 +47,7 @@ hr{ border-top-color:#dadada;}
 
 /* Header */
 #header {
-	height: 95px;
+	height: 77px;
 	position: relative;
 	width: 100%;
 	z-index: -9;
@@ -94,7 +94,7 @@ hr{ border-top-color:#dadada;}
 /* Top user navigation */
 #user-nav {
 	position: absolute;
-	left: 40%;
+	left: 220px;
 	top:0px;
 	z-index: 20;
 	margin: 0;
