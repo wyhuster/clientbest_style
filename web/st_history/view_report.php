@@ -231,8 +231,12 @@
 	//print_r($array_qps_cpu);
 	
 	echo "<table border>";
-	echo "<thead><tr><th rowspan=2>qps</th><th rowspan=2>rps</th><th rowspan=2>response time(ms)</th><th colspan=3>cpu idle(%)</th>
-		 <th colspan=3>mem used(%)</th><th colspan=3>load</th><th colspan=3>io wait(ms)</th></tr>";
+	echo "<thead><tr><th rowspan=3>qps</th><th rowspan=3>rps</th><th rowspan=3>response time(ms)</th>";
+	echo "<th colspan=12>".$module_server."</th></tr>";
+	echo "<tr><th colspan=3>cpu idle(%)</th>
+		 <th colspan=3>mem used(%)</th>
+		 <th colspan=3>load</th>
+		 <th colspan=3>io wait(ms)</th></tr>";
 	echo "<tr><th>max</th><th>avg</th><th>min</th><th>max</th><th>avg</th><th>min</th><th>max</th><th>avg</th><th>min</th><th>max</th>
 		 <th>avg</th><th>min</th></tr></thead>";
 	echo "<tbody>";
